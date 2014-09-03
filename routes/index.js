@@ -1,25 +1,47 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-
+//var db = require('./db.js');
 /* GET home page. */
-router.get('/', function (req, res) {
-    res.render('index', { title: 'Express' });
-});
+
+
+
 
 router.get('/form', function (req, res) {
     res.render("form", {error: {message: "", twitter: "", email: ""}});
 });
 
 
+router.get('/', function(req, res){
+    var schema = req.app.get('db').model('schema');
+    schema.find({},{_id: false, __v : false}, function(error, data) {
+        if(error) {
+            console.log("ERROR");
+        }
+
+        else{
+
+            console.log(data);
+            res.render("index", {data: data});
+            }
+    });
+});
+
 router.post('/form', function (req, res) {
     var message = req.body.message,
         twitter = req.body.twitter,
         email = req.body.email;
+
+
+
     if (!message) {
         res.render("form", {error: {email: "", twitter: "", message: "enter message"}});
     } else {
-        if (!twitter) {
+        if (message.length > 10) {
+            res.render("form", {error: {email: "", twitter: "", message: "message length >10"}});
+        }
+
+        else if (!twitter) {
             res.render("form", {error: {email: "", twitter: "enter twitter", message: ""}});
         }
         else {
@@ -35,6 +57,7 @@ router.post('/form', function (req, res) {
                         var note = req.app.get('db').model('schema');
                         note({twitter: twitter, email: email, message: message}).save(function (e) {
                             console.log('successfully saved');
+                            res.redirect("/");
 
                         });
                     }
@@ -50,6 +73,5 @@ router.post('/form', function (req, res) {
         }
         return true;
     }
-
 
     module.exports = router;
