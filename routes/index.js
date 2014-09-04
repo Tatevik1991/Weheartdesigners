@@ -27,6 +27,18 @@ router.get('/', function(req, res){
     });
 });
 
+
+router.get('/admin', function(req, res){
+    var schema = req.app.get('db').model('schema');
+    schema.find({status:"pending"}, function(error, data) {
+
+            console.log(data);
+            res.render("admin", {data: data});
+
+    });
+});
+
+
 router.post('/form', function (req, res) {
     var message = req.body.message,
         twitter = req.body.twitter,
@@ -55,7 +67,7 @@ router.post('/form', function (req, res) {
                     } else {
                         console.log("correct");
                         var note = req.app.get('db').model('schema');
-                        note({twitter: twitter, email: email, message: message}).save(function (e) {
+                        note({twitter: twitter, email: email, message: message, status: "pending"}).save(function (e) {
                             console.log('successfully saved');
                             res.redirect("/");
 

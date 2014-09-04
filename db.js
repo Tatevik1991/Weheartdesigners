@@ -6,7 +6,8 @@ var schema = mongoose.Schema({
 
 	message: String,
 	twitter: String,
-	email: String
+	email: String,
+    status : String
 });
 
 mongoose.model("schema", schema);
