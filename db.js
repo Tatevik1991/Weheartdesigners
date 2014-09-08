@@ -1,15 +1,22 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/nodetest');
+
 
 
 var schema = mongoose.Schema({
 
 	message: String,
 	twitter: String,
-	email: String,
+	email:   String,
     status : String
 });
 
+ var admin = mongoose.Schema({
+    username: String,
+    password: String
+});
+
 mongoose.model("schema", schema);
+mongoose.model("admin", admin);
+mongoose.connect('mongodb://localhost/nodetest');
 
 module.exports = mongoose;

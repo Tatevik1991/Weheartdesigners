@@ -16,6 +16,7 @@
     "mongodb": "*",
     "mongoose": "*",
     "request": "*",
-     "node-xss": "*"
+     "node-xss": "*",
+     "express-session" : "*"
   }
 }

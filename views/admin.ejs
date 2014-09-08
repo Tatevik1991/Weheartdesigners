@@ -6,9 +6,9 @@
 <body>
 <% for(var i in data) { %>
 <div>
-    ++++++++++++++++++++++++++++++++++++++++++++++
+   ------------------------------------------
     <p>
-        <%= data[i].text %>
+        <%= data[i].message %>
     </p>
     <p>
         <%= data[i].email %>
@@ -17,14 +17,35 @@
         <%= data[i].twitter %>
     </p>
 
-    <a href="#" class="approve" post_id="<%= data[i]._id%>" >approve </a>
-    <a href="#" class="decline" post_id="<%= data[i]._id%>" >decline </a>
+    <a href="#"  class = "click"  status = "approve" post_id="<%= data[i]._id%>" >approve </a>
+    <a href="#"  class = "click"  status = "decline" post_id="<%= data[i]._id%>" >decline </a>
 </div>
 <% } %>
 
+
+
+
+
+
 <script>
-    $(".approve, .decline").click(function(e){
+    $(".click").click(function(e){
+        var postId = e.target.getAttribute("post_id");
+        var status = e.target.getAttribute("status");
         console.log( e.target.innerHTML);
+
+        $.ajax({
+            url:"",
+            type:"POST",
+            data:{postId:postId, status:status},
+            success:function(){
+                if(status==="decline"){
+                    $(e.target).parent().remove();
+                }
+                console.log(data);
+
+            }
+        });
+
     });
 
 
