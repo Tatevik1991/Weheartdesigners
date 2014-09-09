@@ -12,26 +12,42 @@ router.get('/form', function (req, res) {
 });
 
 router.get('/login', function (req, res) {
-    res.render("login");
+    res.render('login');
+
+//   else {
+//        res.render("Hello authenticated admin" +  req.session.admin.username);
+//    }
 
 });
 
+
+
 router.post('/login', function (req, res) {
-    var db = req.app.get("db"),
-        admin = db.model("admin"),
-        username = req.body.username,
+//    var db = req.app.get("db"),
+//        admin = db.model("admin"),
+       var username = req.body.username,
         password = req.body.password;
 
 
-    admin.find({username:"AnnA", password:"Anna1234567"}, function (e, data) {
+    if(username === "AnnA" && password === "12345"){
 
-       // console.log(data);
+         req.session.admin = req.body;
+         res.redirect("/admin");
 
-       if(username===(data[0].username) && password===(data[0].password)){
-        res.redirect("/admin");
-       }
-        else { console.log("Incorrect username or password");}
-});
+    }
+
+    else {
+        console.log("Incorrect username or password");
+    }
+//    admin.find({username:"AnnA", password:"Anna1234567"}, function (e, data) {
+//
+//       // console.log(data);
+//
+//       if(username===(data[0].username) && password===(data[0].password)){
+//        res.redirect("/admin");
+//       }
+//        else { console.log("Incorrect username or password");}
+//});
 
 //    admin({username: "AnnA", password: "Anna1234567"}).save(function(){
 //
@@ -56,13 +72,24 @@ router.get('/', function(req, res){
 
 
 router.get('/admin', function(req, res){
-    var schema = req.app.get('db').model('schema');
-    schema.find({status:"pending"}, function(error, data) {
+    if(!req.session.admin){
+        res.send("error");
+    } else {
+        var schema = req.app.get('db').model('schema');
+        schema.find({status: "pending"}, function (error, data) {
 
             console.log(data);
             res.render("admin", {data: data});
 
-    });
+        });
+    }
+});
+
+
+
+router.post('/logout', function(req, res, next) {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 router.post('/admin', function(req, res){
@@ -82,7 +109,8 @@ router.post('/admin', function(req, res){
     }
   else{
         schema.update({_id:postId}, {status:status}, function(e){
-            res.send("success");
+            //res.send("success");
+            res.render("/");
         });
     }
 });

@@ -8,7 +8,7 @@ var db = require('./db');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var request = require('request');
-var session = require("express-session");
+var session = require('express-session');
 var app = express();
 
 // view engine setup
@@ -17,6 +17,7 @@ app.set('view engine', 'ejs');
 app.set("db", db);
 app.set("request", request);
 
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -24,6 +25,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+        secret            : 'keyboard cat',
+        saveUninitialized : true,
+        resave            : true
+    })
+);
 
 app.use('/', routes);
 app.use('/users', users);

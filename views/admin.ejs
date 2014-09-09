@@ -4,6 +4,16 @@
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
 
 <body>
+
+<form method="POST" action = "/logout">
+   <input type="submit" value = "LogOut">
+</form>
+
+
+<form method="GET" action = "/">
+    <input type="submit" value = "Home">
+</form>
+
 <% for(var i in data) { %>
 <div>
    ------------------------------------------
