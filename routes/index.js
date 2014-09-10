@@ -73,7 +73,7 @@ router.get('/', function(req, res){
 
 router.get('/admin', function(req, res){
     if(!req.session.admin){
-        res.send("error");
+        res.redirect('/');
     } else {
         var schema = req.app.get('db').model('schema');
         schema.find({status: "pending"}, function (error, data) {
@@ -87,7 +87,7 @@ router.get('/admin', function(req, res){
 
 
 
-router.post('/logout', function(req, res, next) {
+router.post('/logout', function(req, res) {
     req.session.destroy();
     res.redirect('/');
 });
@@ -104,13 +104,12 @@ router.post('/admin', function(req, res){
 
     if(status==="decline"){
         schema.remove({_id:postId}, function(e){
-            res.send("success");
+            console.log("Success");
         });
     }
   else{
         schema.update({_id:postId}, {status:status}, function(e){
             //res.send("success");
-            res.render("/");
         });
     }
 });
