@@ -14,20 +14,13 @@ router.get('/form', function (req, res) {
 router.get('/login', function (req, res) {
     res.render('login');
 
-//   else {
-//        res.render("Hello authenticated admin" +  req.session.admin.username);
-//    }
-
 });
 
 
 
 router.post('/login', function (req, res) {
-//    var db = req.app.get("db"),
-//        admin = db.model("admin"),
        var username = req.body.username,
         password = req.body.password;
-
 
     if(username === "AnnA" && password === "12345"){
 
@@ -59,12 +52,13 @@ router.post('/login', function (req, res) {
 
 router.get('/', function(req, res){
     var schema = req.app.get('db').model('schema');
-    schema.find({status:"approve"},{_id: false, __v : false}, function(error, data) {
+    schema.find({status:"approve"},{_id: false, __v : false}).limit(2).exec(function(error, data) {
         if(error) {
             console.log("ERROR");
         }
 
         else{
+            console.log(data);
             res.render("index", {data: data});
             }
     });
@@ -78,14 +72,24 @@ router.get('/admin', function(req, res){
         var schema = req.app.get('db').model('schema');
         schema.find({status: "pending"}, function (error, data) {
 
-            console.log(data);
+            console.log(data + "form admin");
             res.render("admin", {data: data});
 
         });
     }
 });
-
-
+//
+//router.post("/", function(req,res){
+//        var count=req.body.count;
+//       if(count!=""){
+//           res.json({count:count});
+//       }
+//    else{
+//           res.send("count is empty");
+//       }
+//        console.log(count);
+//
+//});
 
 router.post('/logout', function(req, res) {
     req.session.destroy();
@@ -100,17 +104,19 @@ router.post('/admin', function(req, res){
        status =  req.body.status,
        postId = req.body.postId;
 
-    console.log(postId, status);
+       console.log(postId, status);
 
     if(status==="decline"){
         schema.remove({_id:postId}, function(e){
             console.log("Success");
         });
+            return true;
     }
-  else{
+    if(status==="approve"){
         schema.update({_id:postId}, {status:status}, function(e){
             //res.send("success");
         });
+        return true;
     }
 });
 
