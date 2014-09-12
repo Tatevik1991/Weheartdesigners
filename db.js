@@ -7,7 +7,8 @@ var schema = mongoose.Schema({
 	message: String,
 	twitter: String,
 	email:   String,
-    status : String
+    status : String,
+    date: {type:[String], index: true}
 });
 
  var admin = mongoose.Schema({

@@ -53,7 +53,7 @@
                 $.ajax({
                     url: "",
                     type: "POST",
-                    data: {postId: radio[i].id, status: radio[i].value}, // data{postId:id, name:name};
+                    data: {postId: radio[i].id, status: radio[i].value},
                     success: function (data) {
                         if(data!==""){
                           $(input[i].id).parent().remove();

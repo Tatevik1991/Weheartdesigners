@@ -1,10 +1,10 @@
  <!DOCTYPE html>
 <html>
-<link rel='stylesheet' href='/stylesheets/style.css' />
+<link rel='stylesheet' href='/stylesheets/style.css'/>
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
 
 <body>
-<div id = ""></div>
+
 <% for(var i in data) { %>
 <div>
     --------------------------------------
@@ -22,20 +22,20 @@
 <input type="button" value="showMore" onclick="showMore()">
 
 
-<!--<script>-->
-    <!--function showMore(){-->
-        <!--$.ajax({-->
-            <!--url: "/",-->
-            <!--type: "POST",-->
-            <!--data: {count: 2},-->
-            <!--success: function (data) {-->
-                <!--console.log(data);-->
-            <!--}-->
-        <!--});-->
+<script>
+    function showMore(){
+        $.ajax({
+            url: "/",
+            type: "GET",
+            data: {count: 2},
+            success: function (data) {
+                console.log(data);
+            }
+        });
 
-    <!--};-->
+    };
 
-<!--</script>-->
+</script>
 
 </body>
 </html>

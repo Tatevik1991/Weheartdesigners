@@ -37,7 +37,7 @@ router.post('/login', function (req, res) {
 //       // console.log(data);
 //
 //       if(username===(data[0].username) && password===(data[0].password)){
-//        res.redirect("/admin");
+//        res.redirect("/admin");[
 //       }
 //        else { console.log("Incorrect username or password");}
 //});
@@ -51,8 +51,12 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/', function(req, res){
+    var count=req.body.count,
+        counter=0;
+
+
     var schema = req.app.get('db').model('schema');
-    schema.find({status:"approve"},{_id: false, __v : false}).limit(2).exec(function(error, data) {
+    schema.find({status:"approve"},{_id: false, __v : false}).limit(count + counter).exec(function(error, data) {
         if(error) {
             console.log("ERROR");
         }
@@ -82,7 +86,7 @@ router.get('/admin', function(req, res){
 //router.post("/", function(req,res){
 //        var count=req.body.count;
 //       if(count!=""){
-//           res.json({count:count});
+//          console.log(count);
 //       }
 //    else{
 //           res.send("count is empty");
@@ -124,7 +128,8 @@ router.post('/admin', function(req, res){
 router.post('/form', function (req, res) {
     var message = req.body.message,
         twitter = req.body.twitter,
-        email = req.body.email;
+        email = req.body.email,
+        date = new Date();
 
 
 
@@ -153,7 +158,8 @@ router.post('/form', function (req, res) {
                     } else {
                         console.log("correct");
                         var note = req.app.get('db').model('schema');
-                        note({twitter: twitter, email: email, message: message, status: "pending"}).save(function (e) {
+                        schema.index()
+                        note({twitter: twitter, email: email, message: message, status: "pending", date:date, date:date}).save(function (e) {
                             console.log('successfully saved');
                             res.redirect("/");
 
