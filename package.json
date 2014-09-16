@@ -17,6 +17,7 @@
     "mongoose": "*",
     "request": "*",
     "node-xss": "*",
-    "express-session" : "*"
+    "express-session" : "*",
+     "bower": "*"
   }
 }

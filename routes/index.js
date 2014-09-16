@@ -51,19 +51,21 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/', function(req, res){
-    var count=req.body.count,
-        counter=0;
-
+   var date = req.query.date || new Date();
 
     var schema = req.app.get('db').model('schema');
-    schema.find({status:"approve"},{_id: false, __v : false}).limit(count + counter).exec(function(error, data) {
+    schema.find({status:"approve", date: {$lt:date}},{_id: false, __v : false}).sort({date:-1}).limit(2).exec(function(error, data) {
         if(error) {
             console.log("ERROR");
         }
 
         else{
-            console.log(data);
-            res.render("index", {data: data});
+//            console.log(data);
+//            res.render("index", {data: data});
+         if(req.query.dataType == "JSON"){
+             res.send(data);
+         }
+            else {res.render("index", {data: data});}
             }
     });
 });
@@ -76,24 +78,12 @@ router.get('/admin', function(req, res){
         var schema = req.app.get('db').model('schema');
         schema.find({status: "pending"}, function (error, data) {
 
-            console.log(data + "form admin");
+           // console.log(data + "form admin");
             res.render("admin", {data: data});
 
         });
     }
 });
-//
-//router.post("/", function(req,res){
-//        var count=req.body.count;
-//       if(count!=""){
-//          console.log(count);
-//       }
-//    else{
-//           res.send("count is empty");
-//       }
-//        console.log(count);
-//
-//});
 
 router.post('/logout', function(req, res) {
     req.session.destroy();
@@ -108,7 +98,7 @@ router.post('/admin', function(req, res){
        status =  req.body.status,
        postId = req.body.postId;
 
-       console.log(postId, status);
+      // console.log(postId, status);
 
     if(status==="decline"){
         schema.remove({_id:postId}, function(e){
@@ -157,9 +147,8 @@ router.post('/form', function (req, res) {
                         res.render("form", {error: {email: "", twitter: "doesn't exist", message: ""}})
                     } else {
                         console.log("correct");
-                        var note = req.app.get('db').model('schema');
-                        schema.index()
-                        note({twitter: twitter, email: email, message: message, status: "pending", date:date, date:date}).save(function (e) {
+                        var schema = req.app.get('db').model('schema');
+                        schema({twitter: twitter, email: email, message: message, status: "pending", date:date}).save(function (e) {
                             console.log('successfully saved');
                             res.redirect("/");
 

@@ -2,11 +2,12 @@
 <html>
 <link rel='stylesheet' href='/stylesheets/style.css'/>
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
+<script scr="/bower_components/masonry/dist/masonry.pkgd.js"></script>
 
 <body>
 
-<% for(var i in data) { %>
-<div>
+<% for(var i=0; i<data.length; i++) { %>
+<div id ="container">
     --------------------------------------
     <p>
         <%= data[i].message %>
@@ -19,23 +20,33 @@
     </p>
 </div>
 <% } %>
-<input type="button" value="showMore" onclick="showMore()">
-
+ <input type="button"  class = "show" value="showMore" onclick="showMore()"/>  </a>
 
 <script>
-    function showMore(){
-        $.ajax({
-            url: "/",
-            type: "GET",
-            data: {count: 2},
-            success: function (data) {
-                console.log(data);
-            }
-        });
 
-    };
+ function showMore(){
+  var container = document.getElementById("container") ;
+  var show = document.getElementsByClassName("show")[0];
+        var masonry = new Masonry();
+        container.appendChild(p);
+        masonry.appended(p);
+        masonry.layout();
+        $.ajax({
+          url:"?date="+show.id + "&dataType=JSON",
+           type:"GET",
+           success:function(data){
+               if(data!= ""){
+                   for(var i=0; i<data.length; i++){
+                       var html = container.innerHTML;
+                       console.log(html);
+                   }
+
+               }
+           }
+
+       });
+   }
 
 </script>
-
 </body>
 </html>
