@@ -1,52 +1,132 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <link rel='stylesheet' href='/stylesheets/style.css'/>
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
-<script scr="/bower_components/masonry/dist/masonry.pkgd.js"></script>
+<script src="http://masonry.desandro.com/masonry.pkgd.min.js"></script>
 
 <body>
 
+<a href="http://localhost:3000/form"><p class="form">form</p></a>
+
+<div class="icon">
+<a href="https://www.facebook.com"><img src="images/fb.png"></a>
+<a href="https://www.facebook.com"><img src="/images/twitter.png"></a>
+<a href="https://www.facebook.com"><img src="/images/g+.jpg"></a>
+</div>
+
+
+
+<div id="container" class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
 <% for(var i=0; i<data.length; i++) { %>
-<div id ="container">
-    --------------------------------------
-    <p>
+<div class="item" >
+    <p class="text">
         <%= data[i].message %>
     </p>
-    <p>
-        <%= data[i].email %>
-    </p>
-    <p>
-        <%= data[i].twitter %>
+     <p class="text">
+        <%= data[i].twitter %>   <a href="view-<%=data[i]._id%>" class="view">View details </a>
     </p>
 </div>
 <% } %>
- <input type="button"  class = "show" value="showMore" onclick="showMore()"/>  </a>
+</div>
+
+ <input type="button" class = "show"  value="showMore" onclick="showMore()"/>
+ <input type="hidden" value="<%=lastDate%>" id="lastDate">
+
+
 
 <script>
+ $(".view").on('click', function(e) {
+         var id= e.target.getAttribute("id");
+    });
 
- function showMore(){
-  var container = document.getElementById("container") ;
-  var show = document.getElementsByClassName("show")[0];
-        var masonry = new Masonry();
-        container.appendChild(p);
-        masonry.appended(p);
-        masonry.layout();
+    function showMore() {
+       var container = document.getElementById("container");
         $.ajax({
-          url:"?date="+show.id + "&dataType=JSON",
-           type:"GET",
-           success:function(data){
-               if(data!= ""){
-                   for(var i=0; i<data.length; i++){
-                       var html = container.innerHTML;
-                       console.log(html);
-                   }
+            url: "?dataType=JSON&time=" + $("#lastDate").attr("value"),
+            type: "GET",
+            success: function (response) {
+                var data = response.data;
+                console.log(data);
+                if (data != "") {
+                    for (var i = 0; i < data.length; i++) {
+                        var wrapper = document.createElement("div");
+                        wrapper.innerHTML = '<div class="item"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + '<a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
+                        var elem = wrapper.firstChild;
+                        $('#container').append(elem);
+                        $('#container').masonry('appended', elem);
 
-               }
-           }
+                    }
+                }
+                $("#lastDate").attr('value', response['lastDate']);
+            }
 
+        });
+
+        console.log($("#lastDate").attr("value"));
+        $('#container').masonry({
+            itemSelector: '.item',
+            isOriginTop: true,
+            singleMode: false,
+            isResizable: false,
+            isAnimated: true,
+            columnWidth: ".item",
+            gutter: 7,
+            animationOptions: {
+                queue: true,
+                duration: 500
+            }
+        });
+    }
+
+
+$(window).scroll(function() {
+
+    if (document.documentElement.clientHeight +
+            $(document).scrollTop() >= document.body.offsetHeight)
+    {
+
+        var container = document.getElementById("container");
+//        show = document.getElementsByClassName("show")[0];
+          $('.show').css("visibility", "hidden");
+        $.ajax({
+            url:"?dataType=JSON&time="+$("#lastDate").attr("value"),
+            type: "GET",
+            success: function(response) {
+                var data = response.data;
+                console.log(data);
+                if (data != "") {
+                    console.log(data + "54878");
+                    for (var i = 0; i < data.length; i++) {
+                        var wrapper = document.createElement("div");
+                        wrapper.innerHTML = '<div class="item"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter+'<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
+                        var elem = wrapper.firstChild;
+                        $('#container').append(elem);
+                        $('#container').masonry('appended', elem);
+
+                    }
+                }
+                $("#lastDate").attr('value', response['lastDate']);
+            }
+
+        });
+    console.log($("#lastDate").attr("value"));
+        $('#container').masonry({
+            itemSelector: '.item',
+            isOriginTop:true,
+            singleMode: false,
+            isResizable: false,
+            isAnimated: true,
+            columnWidth: ".item",
+            gutter: 7,
+            animationOptions: {
+                queue: true,
+                duration: 500
+            }
        });
    }
-
+    showMore();
+//    setTimeout( showMore, 1000);
+});
 </script>
 </body>
 </html>

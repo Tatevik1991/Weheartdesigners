@@ -15,29 +15,31 @@
 <body>
 <p id = "error"></p>
 	<form method = "POST" action = "#">
-		<textarea  id = "message" name="message" cols="40" rows ="3" placeholder = "Write some text" maxlength="10"></textarea>
-		<input type = "text" name = "twitter" placeholder = "Your Twitter handle">
-		<input type = "text"  id = "email"  name = "email" placeholder = "Your email address">
+		<textarea  id = "message" name="message" cols="40" rows ="3" placeholder = "Write some text" maxlength="100"><%=message %></textarea>
+		<input type = "text" name = "twitter" placeholder = "Your Twitter handle"  value="<%=twitter %>">
+		<input type = "text"  id = "email"  name = "email" placeholder = "Your email address"  value=" <%=email %>">
+        <div class="recaptcha"><%-recaptchaForm%> </div>
 		<input type = "submit" value = "Submit">
 
 </form>
 
 
 
-    <!--<script type="text/javascript">-->
-        <!--function checkCharacters()-->
-        <!--{-->
-            <!--var  message = $("#message");-->
-            <!--if(message.val().length > 10) {-->
-                <!--$("#error").text("errrrr");-->
-                <!--return false;-->
-            <!--}-->
+    <script type="text/javascript">
+        function checkCharacters()
+        {
+            var  message = $("#message");
 
-            <!--else {return true;}-->
+            if(message.val().length > 10) {
+                $("#error").text("errrrr");
+                return false;
+            }
 
-        <!--}-->
+            else {return true;}
 
-    <!--</script>-->
+        }
+
+    </script>
 
 </body>
 </html>

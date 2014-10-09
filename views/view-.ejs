@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<link rel='stylesheet' href='/stylesheets/style.css'/>
+<script src="/javascripts/jquery-1.11.1.min.js"></script>
+
+<body>
+
+<div class="icon">
+    <a href="https://www.facebook.com"><img src="images/fb.png"></a>
+    <a href="https://www.facebook.com"><img src="/images/twitter.png"></a>
+    <a href="https://www.facebook.com"><img src="/images/g+.jpg"></a>
+</div>
+
+<div class="container">
+    <% for(var i in data) { %>
+    <div class="item">
+        <p class="text">
+            <%= data[i].message %>
+        </p>
+        <p class="text">
+            <%= data[i].twitter %>
+        </p>
+    </div>
+    <% } %>
+</div>
+
+</body>
+</html>

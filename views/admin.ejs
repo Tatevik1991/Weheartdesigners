@@ -15,6 +15,8 @@
 </form>
 
 <% for(var i in data) { %>
+<% if (data[i]) { %>
+
 <div>
     ------------------------------------------
     <p>
@@ -30,41 +32,77 @@
     </p>
 
     <form action="#" method="POST" class="click">
-        <input type="radio" value="pending" name="<%= data[i]._id %>" id="<%= data[i]._id %>" class="radio" checked>
-        pending <br>
-        <input type="radio" value="approve" name="<%= data[i]._id %>" id="<%= data[i]._id %>" class="radio">approve
+        <label for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
         <br>
-        <input type="radio" value="decline" name="<%= data[i]._id %>" id="<%= data[i]._id %>" class="radio">decline <br>
+        <label for="<%= data[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= data[i]._id %> +2" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+        <br>
+        <label for="<%= data[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= data[i]._id %> +3" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+        <br>
         <% } %>
-        <input type="button" name="submit" id="submit" value="submit" onclick="radio()"/>
+        <% } %>
+        <input type="button" name="submit" id="submit" value="Save" onclick="radio()"/>
     </form>
 </div>
-opty
+
+
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+<% for(var i in plus) { %>
+<div>
+    ------------------------------------------
+    <p>
+        <%= plus[i].message %>
+    </p>
+
+    <p>
+        <%= plus[i].email %>
+    </p>
+
+    <p>
+        <%= plus[i].twitter %>
+    </p>
+
+    <form action="#" method="POST" class="click">
+        <label for="<%= plus[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= plus[i]._id %> +1" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
+        <br>
+        <label for="<%= plus[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= plus[i]._id %> +2" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+        <br>
+        <label for="<%= plus[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= plus[i]._id %> +3" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+        <br>
+        <% } %>
+
+        <input type="button" name="submit" id="submit" value="Save" onclick="radio()"/>
+    </form>
+</div>
+
 
 <script>
 
     function radio() {
-        var radio = document.getElementsByClassName("radio");
+        var radio = $(".radio"),
+            dataId;
         for (var i = 0; i < radio.length; i++) {
-
             if (radio[i].checked === true) {
-                alert(radio[i].id + radio[i].value + "get value");
+                dataId = $(radio[i]).attr("data_Id");
+              // alert(dataId + radio[i].value + "get value");
 
                 $.ajax({
                     url: "",
                     type: "POST",
-                    data: {postId: radio[i].id, status: radio[i].value},
+                    data: {postId: dataId, status: radio[i].value},
                     success: function (data) {
                         if(data!==""){
-                          $(input[i].id).parent().remove();
+                          dataId.parent().remove();
                         }
                         console.log(data);
-//
+
                     }
                 });
+
             }
         }
         window.location.reload();
+
     };
 
 </script>
