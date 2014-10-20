@@ -9,6 +9,7 @@ var schema = mongoose.Schema({
 	email:   String,
     status: String,
     date:  Date
+
 });
 
  var admin = mongoose.Schema({

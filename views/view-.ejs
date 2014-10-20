@@ -10,19 +10,77 @@
     <a href="https://www.facebook.com"><img src="/images/twitter.png"></a>
     <a href="https://www.facebook.com"><img src="/images/g+.jpg"></a>
 </div>
-
+<input type="button" id="prev" value="prev" onclick="prev()">
 <div class="container">
-    <% for(var i in data) { %>
+
     <div class="item">
-        <p class="text">
-            <%= data[i].message %>
+        <p class="text" id="text">
+            <%= data[0].message %>
         </p>
-        <p class="text">
-            <%= data[i].twitter %>
+        <p class="text" id="twitter">
+            <%= data[0].twitter %>
         </p>
     </div>
-    <% } %>
-</div>
 
+</div>
+<input type="button" id="next" value="next" onclick="next()">
+<input type="hidden" id="time" value="<%=time%>">
+
+
+
+<script>
+
+   function prev(){
+       var time = $("#time").val(),
+           text = $("#text"),
+           twitter = $("#twitter");
+       console.log(time);
+       $.ajax({
+          url: "?dataType=Prev&time="+time,
+           type: "GET",
+           success: function(response){
+               if(response == "NaN"){
+                   console.log("not a data");
+                   return true;
+               }
+
+                   console.log(response);
+                   text.html(response["data"][0].message);
+                   twitter.html(response["data"][0].twitter);
+                   $("#time").attr('value',response['prevTime']);
+
+
+     }
+
+       });
+
+   };
+
+
+
+   function next(){
+       var time = $("#time").val(),
+          text = $("#text"),
+          twitter = $("#twitter");
+       console.log(time);
+       $.ajax({
+           url: "?dataType=Next&time="+time,
+           type: "GET",
+           success: function(response){
+               if(response == "NaN"){
+                   console.log("not a data");
+                   return true;
+               }
+
+                   console.log(response);
+                   text.html(response["data"][0].message);
+                   twitter.html(response["data"][0].twitter);
+                   $("#time").attr('value',response['nextTime']);
+            }
+
+       });
+
+   }
+</script>
 </body>
 </html>

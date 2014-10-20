@@ -60,46 +60,130 @@ router.post('/login', function (req, res) {
 
 
 router.get('/view-:id', function (req, res) {
-    var db = req.app.get('db');
-    var schema = db.model('schema');
-    var id = req.params.id;
-    console.log(id);
+    var db = req.app.get('db'),
+     schema = db.model('schema'),
+     id = req.params.id,
+     lastDAte = req.query.lastDate;
+
+     if(req.query.dataType == "Prev"){
+         var prevTime = req.query.time;
+         console.log(prevTime);
+         schema.find({status: "approve", date: {$gt:prevTime}}).limit(1).exec(function (error, data) {
+             if(data == ""){
+                res.send("NaN");
+             }
+            else{
+                 console.log(data + "Aaaaaaaa");
+                 var result = {status: "success", data: data, prevTime: data[0].date.getTime()};
+                 res.send(result);
+          }
+    });
+         return true;
+     }
+
+
+
+    if(req.query.dataType == "Next"){
+        var nextTime = req.query.time;
+        console.log(nextTime + "pppppppppppp");
+        schema.find({status: "approve", date: {$lt:nextTime}}).sort({date: -1}).limit(1).exec(function (error, data) {
+            if(data == ""){
+                res.send("NaN");
+            }
+            else{
+                console.log(data + "Aaaaaaaa");
+                var result = {status: "success", data: data, nextTime: data[0].date.getTime()};
+                res.send(result);
+            }
+        });
+        return true;
+    }
+
+
     schema.find({_id: id}, function (err, data) {
-//        console.log(data + "chd");
-        res.render("view-", {data: data});
+        var time = data[0].date.getTime();
+        res.render("view-", {data: data, time: time});
 
     })
+
 });
 
 
 router.get('/', function (req, res) {
     var schema = req.app.get('db').model('schema'),
-        lastDate = req.query.time;
-
-    if (req.query.dataType == "JSON") {
-        schema.find({status: "approve", date: {$lt: lastDate}}).sort({date: -1}).limit(10).exec(function (error, data) {
-            if (error) {
-                console.log(error);
-            }
-
-            else {
-                lastDate = data[9] ? data[9].date.getTime() : null;
-                var result = {status: "success", lastDate: lastDate, data: data};
-                res.send(result);
-            }
-        });
-
-    }
-
-    else {
+        lastDate = req.query.time || "",
+//        page = req.params.page;
+//        frontPage = ++req.query.frontPage;
+            page=1;
+            console.log("mmmmmmmmmmm");
         schema.find({status: "approve"}).sort({date: -1}).limit(10).exec(function (error, data) {
-            console.log(data);
             lastDate = data[9].date.getTime();
-            console.log(lastDate);
-            res.render("index", {data: data, lastDate: lastDate});
+            res.render("index", {data: data, lastDate: lastDate, page:page});
 
         });
+
+});
+
+
+
+router.get('/page/:page', function (req, res) {
+    console.log("hhhhhhhh");
+    var schema = req.app.get('db').model('schema'),
+        lastDate = req.query.time || "",
+        page = req.params.page;
+//      frontPage = ++req.query.frontPage;
+        console.log(page + '       ---------------');
+
+
+
+    if(/^[0-9]*$/.test(page)){
+
+        console.log(page + "gghththyj");
+
+        if (req.query.dataType == "JSON") {
+            page++;
+            console.log("ggggggggggg");
+            schema.find({status: "approve", date: {$lt: lastDate}}).sort({date: -1}).limit(10).exec(function (error, data) {
+                if (error) {
+                    console.log(error);
+                }
+
+                else {
+                    console.log("kkkkkkkkk");
+                    lastDate = data[9] ? data[9].date.getTime() : null;
+                    var result = {status: "success", lastDate: lastDate, data: data, page: page};
+                    res.send(result);
+
+                }
+            });
+
+        }
+
+
+        else {
+            page++;
+            console.log("ssssssssssssssssss");
+            console.log(page + "vvvvvvvvvvv");
+            schema.find({status: "approve"}).sort({date: -1}).limit(page * 10).exec(function (error, data) {
+                console.log("jh");
+                lastDate = data[page * 10 - 1].date.getTime();
+                res.render("index", {data: data, lastDate: lastDate, page: page});
+
+            });
+        }
+        return true;
     }
+
+
+
+    if(page.match(/(^view-)(\w|\d){1,}/g)){
+        var array1 = page.split("-");
+        console.log( array1 + "cvnbjb");
+        res.redirect("/view-"+ array1[1]);
+    }
+       else {
+        console.log("wrong value!!!");
+ }
 });
 
 
@@ -111,11 +195,11 @@ router.get('/admin', function (req, res) {
             plus = [];
         schema.find({status: "pending"}, function (error, data) {
             for (var i = 0; i < data.length; i++) {
-                //console.log(data[i].message + "hello!!");
+//               console.log(data[i].message + "hello!!");
                 var result = data[i].message.split(" ");
                 for (var j = 0; j < result.length; j++) {
                     if (result[j] == "bbb") {
-                        // console.log(result[i]);
+//                      console.log(result[i]);
                         plus.push(data[i]);
                         data[i] = "";
                         //data.pop(data[i]);
@@ -123,8 +207,8 @@ router.get('/admin', function (req, res) {
                     }
                 }
             }
-            console.log(plus);
-            console.log(data + "jdhjf");
+//           console.log(plus);
+//           console.log(data + "jdhjf");
             res.render("admin", {data: data, plus: plus});
 
         });
@@ -139,7 +223,7 @@ router.post('/admin', function (req, res) {
 
     if (status === "decline") {
         schema.remove({_id: postId}, function (e) {
-            console.log("Success");
+//            console.log("Success");
         });
         return true;
     }
@@ -161,11 +245,11 @@ router.get('/form', function (req, res) {
    if (!req.session.requestToken) {
       twitter_.getRequestToken(function (error, requestToken, requestTokenSecret, results) {
             if (error) {
-                console.log(error);
+//              console.log(error);
             } else {
                 req.session.requestToken = requestToken;
                 req.session.requestTokenSecret = requestTokenSecret;
-                console.log(requestToken + "54" + requestTokenSecret);
+//               console.log(requestToken + "54" + requestTokenSecret);
                 res.redirect("https://twitter.com/oauth/authenticate?oauth_token=" + requestToken);
             }
         });

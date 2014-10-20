@@ -17,32 +17,39 @@
 
 
 <div id="container" class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
-<% for(var i=0; i<data.length; i++) { %>
-<div class="item" >
+<% for(var i= 0; i<data.length; i++) { %>
+<div class="item" idItem="<%=page%>">
     <p class="text">
         <%= data[i].message %>
     </p>
      <p class="text">
-        <%= data[i].twitter %>   <a href="view-<%=data[i]._id%>" class="view">View details </a>
+        <%= data[i].twitter %>  <a href="view-<%=data[i]._id%>"class="view">View details </a>
     </p>
 </div>
-<% } %>
+
+    <% } %>
+
 </div>
 
  <input type="button" class = "show"  value="showMore" onclick="showMore()"/>
  <input type="hidden" value="<%=lastDate%>" id="lastDate">
-
+ <input type="hidden" value="<%=page%>" id="page">
 
 
 <script>
+
  $(".view").on('click', function(e) {
          var id= e.target.getAttribute("id");
     });
 
-    function showMore() {
-       var container = document.getElementById("container");
-        $.ajax({
-            url: "?dataType=JSON&time=" + $("#lastDate").attr("value"),
+
+
+ function showMore() {
+       var container = document.getElementById("container"),
+         frontPage = $("#page").attr("value");
+
+          $.ajax({
+            url: "/page/"+frontPage+"?dataType=JSON&time=" + $("#lastDate").attr("value"),
             type: "GET",
             success: function (response) {
                 var data = response.data;
@@ -50,7 +57,7 @@
                 if (data != "") {
                     for (var i = 0; i < data.length; i++) {
                         var wrapper = document.createElement("div");
-                        wrapper.innerHTML = '<div class="item"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + '<a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
+                        wrapper.innerHTML = '<div class="item" idItem="'+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + '<a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
                         var elem = wrapper.firstChild;
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
@@ -58,11 +65,12 @@
                     }
                 }
                 $("#lastDate").attr('value', response['lastDate']);
+                $("#page").attr('value',     response['page']);
             }
 
         });
-
-        console.log($("#lastDate").attr("value"));
+         history.pushState({}, '', 'http://localhost:3000/page/'+frontPage);
+//       console.log($("#lastDate").attr("value"));
         $('#container').masonry({
             itemSelector: '.item',
             isOriginTop: true,
@@ -76,6 +84,9 @@
                 duration: 500
             }
         });
+
+
+
     }
 
 
@@ -85,20 +96,21 @@ $(window).scroll(function() {
             $(document).scrollTop() >= document.body.offsetHeight)
     {
 
-        var container = document.getElementById("container");
-//        show = document.getElementsByClassName("show")[0];
+        var container = document.getElementById("container"),
+         frontPage = $("#page").attr("value");
           $('.show').css("visibility", "hidden");
+
         $.ajax({
-            url:"?dataType=JSON&time="+$("#lastDate").attr("value"),
+            url:"/page/"+frontPage+"?dataType=JSON&time=" + $("#lastDate").attr("value"),
             type: "GET",
             success: function(response) {
                 var data = response.data;
                 console.log(data);
                 if (data != "") {
-                    console.log(data + "54878");
+//                    console.log(data + "54878");
                     for (var i = 0; i < data.length; i++) {
                         var wrapper = document.createElement("div");
-                        wrapper.innerHTML = '<div class="item"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter+'<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
+                        wrapper.innerHTML = '<div class="item" idItem="'+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter+'<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
                         var elem = wrapper.firstChild;
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
@@ -106,10 +118,11 @@ $(window).scroll(function() {
                     }
                 }
                 $("#lastDate").attr('value', response['lastDate']);
+              $("#page").attr('value', response['page']);
             }
 
         });
-    console.log($("#lastDate").attr("value"));
+        history.pushState({}, '', 'http://localhost:3000/page/'+frontPage);
         $('#container').masonry({
             itemSelector: '.item',
             isOriginTop:true,
@@ -124,8 +137,7 @@ $(window).scroll(function() {
             }
        });
    }
-    showMore();
-//    setTimeout( showMore, 1000);
+
 });
 </script>
 </body>
