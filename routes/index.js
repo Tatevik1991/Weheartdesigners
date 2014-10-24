@@ -136,7 +136,7 @@ router.get('/page/:page', function (req, res) {
 
 
 
-    if(/^[0-9]*$/.test(page)){
+    if(/^[0-9]*$/.test(page)) {
 
         console.log(page + "gghththyj");
 
@@ -156,34 +156,47 @@ router.get('/page/:page', function (req, res) {
 
                 }
             });
-
+            return true;
         }
 
-
+        /*  copy-paste url */
+//        if (page >= 4) {
+//            console.log(page + "111");
+//            schema.find({status: "approve"}).sort({date: -1}).limit(page * 10).exec(function (error, data) {
+//                console.log("jh");
+//                lastDate = "";
+//                res.render("index", {data: data, lastDate: lastDate, page: page});
+//
+//            });
+//
+//        }
         else {
             page++;
             console.log("ssssssssssssssssss");
             console.log(page + "vvvvvvvvvvv");
             schema.find({status: "approve"}).sort({date: -1}).limit(page * 10).exec(function (error, data) {
-                console.log("jh");
-                lastDate = data[page * 10 - 1].date.getTime();
-                res.render("index", {data: data, lastDate: lastDate, page: page});
+                if(data!=""){
+                    console.log(data + "jh");
+                    lastDate = data[page * 10-1] ? data[page * 10-1].date.getTime() : null;
+                    res.render("index", {data: data, lastDate: lastDate, page: page});
+
+                }
+                else{
+                    console.log("empty data");
+                }
 
             });
         }
         return true;
     }
 
-
-
     if(page.match(/(^view-)(\w|\d){1,}/g)){
         var array1 = page.split("-");
-        console.log( array1 + "cvnbjb");
         res.redirect("/view-"+ array1[1]);
     }
        else {
         console.log("wrong value!!!");
- }
+    }
 });
 
 
@@ -195,20 +208,15 @@ router.get('/admin', function (req, res) {
             plus = [];
         schema.find({status: "pending"}, function (error, data) {
             for (var i = 0; i < data.length; i++) {
-//               console.log(data[i].message + "hello!!");
                 var result = data[i].message.split(" ");
                 for (var j = 0; j < result.length; j++) {
                     if (result[j] == "bbb") {
-//                      console.log(result[i]);
                         plus.push(data[i]);
                         data[i] = "";
-                        //data.pop(data[i]);
                         break;
                     }
                 }
             }
-//           console.log(plus);
-//           console.log(data + "jdhjf");
             res.render("admin", {data: data, plus: plus});
 
         });
@@ -223,7 +231,6 @@ router.post('/admin', function (req, res) {
 
     if (status === "decline") {
         schema.remove({_id: postId}, function (e) {
-//            console.log("Success");
         });
         return true;
     }
@@ -242,26 +249,26 @@ router.post('/logout', function (req, res) {
 
 
 router.get('/form', function (req, res) {
-   if (!req.session.requestToken) {
-      twitter_.getRequestToken(function (error, requestToken, requestTokenSecret, results) {
-            if (error) {
-//              console.log(error);
-            } else {
-                req.session.requestToken = requestToken;
-                req.session.requestTokenSecret = requestTokenSecret;
-//               console.log(requestToken + "54" + requestTokenSecret);
-                res.redirect("https://twitter.com/oauth/authenticate?oauth_token=" + requestToken);
-            }
-        });
-   }
-    else {
-    var oauth_token = req.query.oauth_token,
+//   if (!req.session.requestToken) {
+//      twitter_.getRequestToken(function (error, requestToken, requestTokenSecret, results) {
+//            if (error) {
+////              console.log(error);
+//            } else {
+//                req.session.requestToken = requestToken;
+//                req.session.requestTokenSecret = requestTokenSecret;
+////               console.log(requestToken + "54" + requestTokenSecret);
+//                res.redirect("https://twitter.com/oauth/authenticate?oauth_token=" + requestToken);
+//            }
+//        });
+//   }
+//    else {
+//    var oauth_token = req.query.oauth_token,
         recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY),
         message = "",
         twitter = "",
         email = "";
     res.render("form", {error: {message: "", twitter: "", email: ""}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML()});
-    }
+//    }
 
 });
 
@@ -327,7 +334,7 @@ router.post('/form', function (req, res) {
 });
 
 function validateEmail(email) {
-    if (!email || !email.match(/^[\w\d]{1,10}@[\w\d]{1,10}\.[\w]{1,4}/g)) {
+    if (!email || !email.match(/[\w\d]{1,20}@[\w\d]{1,20}\.[\w]{1,4}/gi)){
         return false;
     }
     return true;

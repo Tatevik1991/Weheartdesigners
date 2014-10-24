@@ -18,7 +18,7 @@
 
 <div id="container" class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
 <% for(var i= 0; i<data.length; i++) { %>
-<div class="item" idItem="<%=page%>">
+<div class="item <%=page%>">
     <p class="text">
         <%= data[i].message %>
     </p>
@@ -38,9 +38,9 @@
 
 <script>
 
- $(".view").on('click', function(e) {
-         var id= e.target.getAttribute("id");
-    });
+// $(".view").on('click', function(e) {
+//         var id= e.target.getAttribute("id");
+//    });
 
 
 
@@ -56,12 +56,26 @@
                 console.log(data);
                 if (data != "") {
                     for (var i = 0; i < data.length; i++) {
-                        var wrapper = document.createElement("div");
-                        wrapper.innerHTML = '<div class="item" idItem="'+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + '<a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
+                      var wrapper = document.createElement("div");
+                        if(data[i].message.match((/(<([^>]+)>)/ig))){
+                            var array=[];
+                            array = data[i].message.split("");
+                            for(var j=0;j<data.length;j++){
+                                if(array[j]=="<"){
+                                    array[j] = "&lt;"
+                                }
+                                if(array[j]==">"){
+                                    array[j] = "&gt;"
+                                }
+
+                            }
+                            data[i].message = array.join("");
+                        }
+                        wrapper.innerHTML = '<div class="item ' +response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + '<a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
                         var elem = wrapper.firstChild;
+
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
-
                     }
                 }
                 $("#lastDate").attr('value', response['lastDate']);
@@ -92,6 +106,9 @@
 
 $(window).scroll(function() {
 
+    if( frontPage = $("#page").attr("value")>4)
+       return true;
+
     if (document.documentElement.clientHeight +
             $(document).scrollTop() >= document.body.offsetHeight)
     {
@@ -107,10 +124,24 @@ $(window).scroll(function() {
                 var data = response.data;
                 console.log(data);
                 if (data != "") {
-//                    console.log(data + "54878");
                     for (var i = 0; i < data.length; i++) {
                         var wrapper = document.createElement("div");
-                        wrapper.innerHTML = '<div class="item" idItem="'+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter+'<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
+                        if(data[i].message.match((/(<([^>]+)>)/ig))){
+                            var array=[];
+                            array = data[i].message.split("");
+                            for(var j=0;j<data.length;j++){
+                                if(array[j]=="<"){
+                                    array[j] = "&lt;"
+                                }
+                                if(array[j]==">"){
+                                    array[j] = "&gt;"
+                                }
+
+                            }
+                            data[i].message = array.join("");
+                        }
+
+                        wrapper.innerHTML = '<div class="item '+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter+'<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
                         var elem = wrapper.firstChild;
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
@@ -138,7 +169,95 @@ $(window).scroll(function() {
        });
    }
 
+
+    $(function(){
+
+        var elem;
+        var _top = $(window).scrollTop();
+
+        $(window).scroll(function(){
+            var _cur_top = $(window).scrollTop();
+            if(_top > _cur_top)
+            {
+                console.log("up");
+                for(var i=1; i<5; i++) {
+                    elem = $("." + i)[0];
+                    if (isScrolledIntoView(elem)) {
+                        console.log(i + "jh");
+                        break;
+                    }
+
+                    console.log(i);
+                }
+
+
+                    var up= --i;
+                    if(up == 0){
+                        history.pushState({}, '', 'http://localhost:3000');
+                    }
+                    else{
+                        history.pushState({}, '', 'http://localhost:3000/page/'+i);
+                    }
+                _top = _cur_top;
+                }
+            });
+        });
+
+
+    $(function(){
+
+        var elem;
+        var _top = $(window).scrollTop();
+
+        $(window).scroll(function(){
+            var _cur_top = $(window).scrollTop();
+            if(_top < _cur_top)
+            {
+                console.log("up");
+                for(var i=1; i<5; i++) {
+                    elem = $("." + i)[0];
+                    if (isScrolledIntoView(elem)) {
+                        console.log(i + "jh");
+                        break;
+                    }
+
+                    console.log(i);
+                }
+
+
+                var up= --i;
+                if(up == 0){
+                    history.pushState({}, '', 'http://localhost:3000');
+                }
+                else{
+                    history.pushState({}, '', 'http://localhost:3000/page/'+i);
+                }
+                _top = _cur_top;
+            }
+        });
+    });
+
+
+
+
+
+
+    function isScrolledIntoView(elem)
+    {
+        var docViewTop = $(window).scrollTop();
+        var docViewBottom = docViewTop + $(window).height();
+
+        var elemTop = $(elem).offset().top;
+        var elemBottom = elemTop + $(elem).height();
+
+        return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    }
+
+
 });
+
+
+
 </script>
 </body>
 </html>
