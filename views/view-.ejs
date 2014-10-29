@@ -17,6 +17,7 @@
         <p class="text" id="text">
             <%= data[0].message %>
         </p>
+        <img src="<%=data[0].icon%>" id="icon">
         <p class="text" id="twitter">
             <%= data[0].twitter %>
         </p>
@@ -33,7 +34,9 @@
    function prev(){
        var time = $("#time").val(),
            text = $("#text"),
-           twitter = $("#twitter");
+           twitter = $("#twitter"),
+               icon = $("#icon");
+
        console.log(time);
        $.ajax({
           url: "?dataType=Prev&time="+time,
@@ -44,12 +47,26 @@
                    return true;
                }
 
+               if(response["data"][0].message.match((/(<([^>]+)>)/ig))){
+                   var array=[];
+                   array = response["data"][0].message.split("");
+                       if(array[0]=="<"){
+                           array[0] = "&lt;"
+                       }
+                       if(array[0]==">"){
+                           array[0] = "&gt;"
+                       }
+
+
+                   response["data"][0].message = array.join("");
+               }
+
                    console.log(response);
                    text.html(response["data"][0].message);
                    twitter.html(response["data"][0].twitter);
+                   icon.attr("src",response["data"][0].icon);
                    $("#time").attr('value',response['prevTime']);
-
-
+                  history.pushState({}, '', 'http://localhost:3000/view-'+response['id']);
      }
 
        });
@@ -61,7 +78,8 @@
    function next(){
        var time = $("#time").val(),
           text = $("#text"),
-          twitter = $("#twitter");
+          twitter = $("#twitter"),
+          icon = $("#icon");
        console.log(time);
        $.ajax({
            url: "?dataType=Next&time="+time,
@@ -71,11 +89,23 @@
                    console.log("not a data");
                    return true;
                }
-
+               if(response["data"][0].message.match((/(<([^>]+)>)/ig))){
+                   var array=[];
+                   array = response["data"][0].message.split("");
+                       if(array[0]=="<"){
+                           array[0] = "&lt;"
+                       }
+                       if(array[0]==">"){
+                           array[0] = "&gt;"
+                       }
+           response["data"][0].message = array.join("");
+               }
                    console.log(response);
                    text.html(response["data"][0].message);
                    twitter.html(response["data"][0].twitter);
+                   icon.attr("src",response["data"][0].icon);
                    $("#time").attr('value',response['nextTime']);
+                  history.pushState({}, '', 'http://localhost:3000/view-'+response['id']);
             }
 
        });

@@ -22,6 +22,7 @@
     <p class="text">
         <%= data[i].message %>
     </p>
+    <img src="<%=data[i].icon%>">
      <p class="text">
         <%= data[i].twitter %>  <a href="view-<%=data[i]._id%>"class="view">View details </a>
     </p>
@@ -53,6 +54,8 @@
             type: "GET",
             success: function (response) {
                 var data = response.data;
+                $("#lastDate").attr('value', response['lastDate']);
+                $("#page").attr('value', response['page']);
                 console.log(data);
                 if (data != "") {
                     for (var i = 0; i < data.length; i++) {
@@ -71,15 +74,15 @@
                             }
                             data[i].message = array.join("");
                         }
-                        wrapper.innerHTML = '<div class="item ' +response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + '<a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
+                        wrapper.innerHTML = '<div class="item ' +response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter  + '<img src="'+data[i].icon+'"> <a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
                         var elem = wrapper.firstChild;
 
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
                     }
                 }
-                $("#lastDate").attr('value', response['lastDate']);
-                $("#page").attr('value',     response['page']);
+//                $("#lastDate").attr('value', response['lastDate']);
+//                $("#page").attr('value',     response['page']);
             }
 
         });
@@ -110,8 +113,7 @@ $(window).scroll(function() {
        return true;
 
     if (document.documentElement.clientHeight +
-            $(document).scrollTop() >= document.body.offsetHeight)
-    {
+            $(document).scrollTop() >= document.body.offsetHeight) {
 
         var container = document.getElementById("container"),
          frontPage = $("#page").attr("value");
@@ -122,6 +124,8 @@ $(window).scroll(function() {
             type: "GET",
             success: function(response) {
                 var data = response.data;
+                $("#lastDate").attr('value', response['lastDate']);
+                $("#page").attr('value', response['page']);
                 console.log(data);
                 if (data != "") {
                     for (var i = 0; i < data.length; i++) {
@@ -141,15 +145,15 @@ $(window).scroll(function() {
                             data[i].message = array.join("");
                         }
 
-                        wrapper.innerHTML = '<div class="item '+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter+'<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
+                        wrapper.innerHTML = '<div class="item '+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter + '<img src="'+data[i].icon+'"><a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
                         var elem = wrapper.firstChild;
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
 
                     }
                 }
-                $("#lastDate").attr('value', response['lastDate']);
-              $("#page").attr('value', response['page']);
+//                $("#lastDate").attr('value', response['lastDate']);
+//              $("#page").attr('value', response['page']);
             }
 
         });
@@ -171,35 +175,36 @@ $(window).scroll(function() {
 
 
     $(function(){
+                var elem;
+                var _top = $(window).scrollTop();
 
-        var elem;
-        var _top = $(window).scrollTop();
+                $(window).scroll(function() {
+                    var _cur_top = $(window).scrollTop();
+                    var frontPage = $("#page").attr("value");
+                    if (_top > _cur_top){
 
-        $(window).scroll(function(){
-            var _cur_top = $(window).scrollTop();
-            if(_top > _cur_top)
-            {
-                console.log("up");
-                for(var i=1; i<5; i++) {
-                    elem = $("." + i)[0];
-                    if (isScrolledIntoView(elem)) {
-                        console.log(i + "jh");
-                        break;
+                        console.log("up");
+                    for (var i = 1; i < frontPage; i++) {
+                        elem = $("." + i)[0];
+                        if (isScrolledIntoView(elem)) {
+                            console.log(i + "jh");
+                            break;
+                        }
+
+                        console.log(i);
                     }
 
-                    console.log(i);
-                }
 
-
-                    var up= --i;
-                    if(up == 0){
+                    var up = --i;
+                    if (up == 0) {
                         history.pushState({}, '', 'http://localhost:3000');
                     }
-                    else{
-                        history.pushState({}, '', 'http://localhost:3000/page/'+i);
+                    else {
+                        history.pushState({}, '', 'http://localhost:3000/page/' + up);
+                    }
                     }
                 _top = _cur_top;
-                }
+
             });
         });
 
@@ -211,29 +216,21 @@ $(window).scroll(function() {
 
         $(window).scroll(function(){
             var _cur_top = $(window).scrollTop();
+            var frontPage = $("#page").attr("value");
             if(_top < _cur_top)
             {
-                console.log("up");
-                for(var i=1; i<5; i++) {
+                console.log("down");
+                for(var i=1; i<frontPage; i++) {
                     elem = $("." + i)[0];
                     if (isScrolledIntoView(elem)) {
-                        console.log(i + "jh");
                         break;
                     }
-
-                    console.log(i);
+                   console.log(i);
                 }
+               history.pushState({}, '',  'http://localhost:3000/page/'+i);
 
-
-                var up= --i;
-                if(up == 0){
-                    history.pushState({}, '', 'http://localhost:3000');
-                }
-                else{
-                    history.pushState({}, '', 'http://localhost:3000/page/'+i);
-                }
-                _top = _cur_top;
             }
+            _top = _cur_top;
         });
     });
 

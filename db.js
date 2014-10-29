@@ -8,6 +8,7 @@ var schema = mongoose.Schema({
 	twitter: String,
 	email:   String,
     status: String,
+    icon:   String,
     date:  Date
 
 });

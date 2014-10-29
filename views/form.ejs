@@ -16,7 +16,9 @@
 <p id = "error"></p>
 	<form method = "POST" action = "#">
 		<textarea  id = "message" name="message" cols="40" rows ="3" placeholder = "Write some text" maxlength="100"><%=message %></textarea>
-		<input type = "text" name = "twitter" placeholder = "Your Twitter handle"  value="<%=twitter %>">
+	    <img src="<%=image%>">
+        <input type="hidden" name = "icon" value="<%=image%>">
+        <input type = "text" name = "twitter" placeholder = "Your Twitter handle"  value="<%=screen_name %>"readonly>
 		<input type = "text"  id = "email"  name = "email" placeholder = "Your email address"  value=" <%=email %>">
         <div class="recaptcha"><%-recaptchaForm%> </div>
 		<input type = "submit" value = "Submit">
