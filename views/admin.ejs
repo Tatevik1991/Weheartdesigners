@@ -84,9 +84,7 @@ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
         for (var i = 0; i < radio.length; i++) {
             if (radio[i].checked === true) {
                 dataId = $(radio[i]).attr("data_Id");
-              // alert(dataId + radio[i].value + "get value");
-
-                $.ajax({
+        $.ajax({
                     url: "",
                     type: "POST",
                     data: {postId: dataId, status: radio[i].value},

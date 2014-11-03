@@ -119,7 +119,7 @@ router.get('/page/:page', function (req, res) {
     var schema = req.app.get('db').model('schema'),
         lastDate = req.query.time || "",
         page = req.params.page,
-        lastTime;
+        lastPage = page - 1;
 
     if (/^[0-9]*$/.test(page)) {
 
@@ -141,27 +141,29 @@ router.get('/page/:page', function (req, res) {
         }
 
         /*  copy-paste url */
-//        if (page >= 4) {
-//            console.log(page + "111");
-//            schema.find({status: "approve"}).sort({date: -1}).limit(page * 10).exec(function (error, data) {
-//                console.log("jh");
-//                lastDate = "";
-//                res.render("index", {data: data, lastDate: lastDate, page: page});
-//
-//            });
-//
-//        }
         else {
+            if(lastPage==0)
+            {
+                res.redirect("/");
+                return;
+            }
 
-            page++;
-            schema.find({status: "approve"}).sort({date: -1}).limit(page * 10).exec(function (error, data) {
+
+            schema.find({status: "approve"}).sort({date: -1}).limit( lastPage * 10).exec(function (error, data) {
                 if (data != "") {
-                    lastDate = data[page * 10 - 1] ? data[page * 10 - 1].date.getTime() : null;
-                    res.render("index", {data: data, lastDate: lastDate, page: page});
 
-                }
-                else {
-//                    console.log("empty data");
+                    var time2;
+                    time2 = data[ lastPage * 10 - 1].date.getTime();
+                    console.log( data[ lastPage * 10 - 1]._id);
+
+                    schema.find({status: "approve", date: {$lt: time2}}).sort({date: -1}).limit(10).exec(function (error, data) {
+                        if (data != "") {
+                            lastDate = data[9] ? data[9].date.getTime() : null;
+                            res.render("index", {data: data, lastDate: lastDate, page: page});
+
+                        }
+                    });
+
                 }
 
             });
@@ -169,13 +171,14 @@ router.get('/page/:page', function (req, res) {
         return true;
     }
 
-    if (page.match(/(^view-)(\w|\d){1,}/g)) {
-        var array1 = page.split("-");
-        res.redirect("/view-" + array1[1]);
-    }
-    else {
+        if (page.match(/(^view-)(\w|\d){1,}/g)) {
+            var array1 = page.split("-");
+            res.redirect("/view-" + array1[1]);
+        }
+        else {
 //        console.log("wrong value!!!");
-    }
+        }
+
 });
 
 
@@ -228,60 +231,77 @@ router.post('/logout', function (req, res) {
 
 
 router.get('/form', function (req, res) {
+    if(req.query.dataType =="JSON"){
+      req.session.message = req.query.message;
+      req.session.email = req.query.email;
+      console.log(req.session.message + "fgg",req.session.email+"ggghhh" );
+  }
 
-    if (req.query.oauth_token && req.query.oauth_verifier) {
-        twitter_.getAccessToken(req.query.oauth_token, req.session.requestTokenSecret, req.query.oauth_verifier, function (error, accessToken, accessTokenSecret, results) {
-            if (error) {
-                console.log(error);
-            } else {
+
+   if (req.query.oauth_token && req.query.oauth_verifier) {
+            twitter_.getAccessToken(req.query.oauth_token, req.session.requestTokenSecret, req.query.oauth_verifier, function (error, accessToken, accessTokenSecret, results) {
+                if (error) {
+                    console.log(error);
+                } else {
 //                res.json(arguments);
-                console.log(arguments);
-                var screen_name = arguments['3']['screen_name'],
-                    image="";
-                twitter_.users("show", {
-                        screen_name: screen_name
-                    },
-                    accessToken,
-                    accessTokenSecret,
-                    function(error, data, response) {
-                        if (error) {
-                            console.log('Error: ', error);
-                        } else {
-                            console.log('Data: ', data);
-                            console.log('Response: ', response);
-                            image = data['profile_image_url'];
-                            var recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY),
-                                message = "",
-                                twitter = "",
-                                email = "";
-                            res.render("form", {error: {message: "", twitter: "", email: ""}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML(),screen_name:screen_name,  image: image});
-
-
+//                    console.log(arguments);
+                    var screen_name = arguments['3']['screen_name'],
+                       twitt_name = "@"+screen_name,
+                        image = "";
+                    twitter_.users("show", {
+                            screen_name: screen_name
+                        },
+                        accessToken,
+                        accessTokenSecret,
+                        function (error, data, response) {
+                            if (error) {
+                                console.log('Error: ', error);
+                            } else {
+//                                console.log('Data: ', data);
+//                                console.log('Response: ', response);
+                                image = data['profile_image_url'];
+                                var recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY),
+                                    message = "",
+                                    twitter = "",
+                                    email = "";
+                                console.log(req.session.message + "message",  req.session.email + "email");
+                                res.render("form", {error: {message: "", twitter: "", email: ""}, message: message, email: email,
+                                    twitter: twitter, recaptchaForm: recaptcha.toHTML(), screen_name: twitt_name , image: image});
+                            }
                         }
-                    }
-                );
+                    );
+                  }
+            });
+            return;
+        }
 
+    var twitterLink=req.query.twitter;
 
+   if(twitterLink == "twitter") {
+       console.log(twitterLink + "twitter");
+     if (!req.session.requestToken) {
+         console.log(req.session.message + "messagegetreq",  req.session.email + "emailgetreq");
+         twitter_.getRequestToken(function (error, requestToken, requestTokenSecret, results) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    req.session.requestToken = requestToken;
+                    req.session.requestTokenSecret = requestTokenSecret;
+                    res.redirect("https://twitter.com/oauth/authenticate?oauth_token=" + requestToken);
+                }
+            });
 
-            }
-        });
-        return;
+        }
     }
+        else {
+            var recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY),
+                message = "",
+                twitter = "",
+                email = "";
+            res.render("form", {error: {message: "", twitter: "", email: ""},
+                message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML(), screen_name:"", image:""});
+        }
 
-
-
-    if (!req.session.requestToken) {
-        twitter_.getRequestToken(function (error, requestToken, requestTokenSecret, results) {
-            if (error) {
-                console.log(error);
-            } else {
-                req.session.requestToken = requestToken;
-                req.session.requestTokenSecret = requestTokenSecret;
-                res.redirect("https://twitter.com/oauth/authenticate?oauth_token=" + requestToken);
-            }
-        });
-        return;
-    }
 
 
 });
@@ -302,10 +322,8 @@ router.post('/form', function (req, res) {
                 email = req.body.email,
                 icon = req.body.icon,
                 date = new Date();
-                console.log(icon);
 
-
-            if (!message) {
+           if (!message) {
                 message = "";
                 res.render("form", {error: {email: "", twitter: "", message: "enter message"}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML()});
 
@@ -327,21 +345,6 @@ router.post('/form', function (req, res) {
                 res.render("form", {error: {email: "enter correct email", twitter: "", message: ""}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML()})
                 return true;
             } else {
-//                request('https://twitter.com/' + twitter, function (error, response, body) {
-//                    if (response.statusCode === 404) {
-//                        console.log("error");
-//                        res.render("form", {error: {email: "", twitter: "doesn't exist", message: ""}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML()})
-//                    } else {
-//                        console.log("correct");
-//                        var schema = req.app.get('db').model('schema');
-//                        schema({twitter: twitter, icon:icon, email: email, message: message, status: "pending", date: date}).save(function (e) {
-//                            console.log('successfully saved');
-//                            res.redirect("/form");
-//
-//                        });
-//                    }
-//                });
-//
                 console.log("correct");
                 var schema = req.app.get('db').model('schema');
                 schema({twitter: twitter, icon:icon, email: email, message: message, status: "pending", date: date}).save(function (e) {

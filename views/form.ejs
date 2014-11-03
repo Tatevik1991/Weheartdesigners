@@ -17,8 +17,8 @@
 	<form method = "POST" action = "#">
 		<textarea  id = "message" name="message" cols="40" rows ="3" placeholder = "Write some text" maxlength="100"><%=message %></textarea>
 	    <img src="<%=image%>">
-        <input type="hidden" name = "icon" value="<%=image%>">
-        <input type = "text" name = "twitter" placeholder = "Your Twitter handle"  value="<%=screen_name %>"readonly>
+        <input type="hidden" name = "icon" value="<%=image%>" id="icon">
+        <input type = "text" name = "twitter" placeholder = "Your Twitter handle"  value="<%=screen_name %>">
 		<input type = "text"  id = "email"  name = "email" placeholder = "Your email address"  value=" <%=email %>">
         <div class="recaptcha"><%-recaptchaForm%> </div>
 		<input type = "submit" value = "Submit">
@@ -26,8 +26,11 @@
 </form>
 
 
+<form method="GET" action="#" onsubmit="return twitterRequest()">
+ <input type="submit"  name="twitter" value="twitter" >
+</form>
 
-    <script type="text/javascript">
+ <script type="text/javascript">
         function checkCharacters()
         {
             var  message = $("#message");
@@ -41,8 +44,22 @@
 
         }
 
-    </script>
+        function  twitterRequest(){
+            var message = $("#message").val(),
+                email = $("#email").val();
+            console.log( message, email);
 
+            $.ajax({
+                url:"?dataType=JSON&message="+message + "&email="+email,
+                type:"GET",
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        }
+
+
+</script>
 </body>
 </html>
 
