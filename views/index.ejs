@@ -6,43 +6,131 @@
 
 <body>
 
-<a href="http://localhost:3000/form"><p class="form">form</p></a>
-
-<div class="icon">
-<a href="https://www.facebook.com"><img src="images/fb.png"></a>
-<a href="https://www.facebook.com"><img src="/images/twitter.png"></a>
-<a href="https://www.facebook.com"><img src="/images/g+.jpg"></a>
+<!--header-->
+<div class="header">
+    <div class="all">
+        <div class="heartlovepower">
+            <div class="heart"> </div>
+            <div class="powerlove">
+                <div class="love"></div>
+                <div class="java"> </div>
+          <span class="power">powered by <span class="exp">expresscurate</span></span>
+            </div>
+            <div class="clear2"></div>
+        </div>
+        <div class="buttons">
+            <a href="http://localhost:3000/form" class="a_link"> <button class="add">ADD LOVE NOTE</button></a>
+            <button class="like"> <div class="like_note"></div><span class="note">LIKE</span></button>
+        </div>
+    </div>
+    <div class="clear2"></div>
 </div>
+<!--header-->
 
+<!--masonry-->
+<div id="content">
+ <ul  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
+ <%for(var i=0; i<data.length; i++ )
+{ %>
+ <li class="item <%= page %>" >
+   <div class="note-inner">
+     <span class="love-heading">
+             <span class="i-love"> I
+              <img src="../images/gruop1.png" class="group-img">
+              JAVA
+              BECAUSE
+               </span>
+            <span class="note_message"> <%= data[i].message %></span>
+           <span class="twitter">
+            <%= data[i].twitter %>
+           </span>
 
+        </span>
+            </div>
+            <div class="note-overlay">
+                <div class="outer">
+                    <div class="middle">
+                        <div class="details-btn">
+                   <span class="details">
 
-<div id="container" class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
-<% for(var i= 0; i<data.length; i++) { %>
-<div class="item <%=page%>">
-    <p class="text">
-        <%= data[i].message %>
-    </p>
+                    <a href="view-<%= data[i]._id %>" class="view">
+                             VIEW
+                        <img class="gruop2" src="../images/gruop1.png">
+                             NOTE
+                    </a>
+                   </span>
 
-     <p class="text">
-        <%= data[i].twitter %>
-       <a href="view-<%=data[i]._id%>"class="view">View details </a>
-    </p>
+                            <a  class="btn"  target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=#url">
+                                <button class="fb-btn">facebook</button></a>
+                            <a  class="btn"  target="_blank" href="https://twitter.com/share">
+                                <button class="tw-btn">tweet</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+<% } %>
+</ul>
 </div>
+<!--end of masonry-->
 
-    <% } %>
-
-</div>
-
- <input type="button" class = "show"  value="showMore" onclick="showMore()"/>
+ <input type="button" class = "show"  value="Show more" onclick="showMore()"/>
  <input type="hidden" value="<%=lastDate%>" id="lastDate">
  <input type="hidden" value="<%=page%>" id="page">
+ <input type="hidden" value="<%=scrollpage%>" id="scrollpage">
+
+<!--footer-->
+<div class="footer">
+    <div class="footer_container">
+ <ul class="footer_ul">
+     <li class="about"> <h2 class="h2">ABOUT</h2>
+        <span class="about_span">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </span>
+      </li>
+
+     <li class="express_curate"><h2 class="h2">EXPRESS CURATE</h2>
+       <span class="express_curate_span">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+         <br>
+         <br>
+         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+         totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.v
+       </span>
+     </li>
+</ul>
+
+
+
+
+<!--footer_content div-->
+<div class="footer_content">
+<h2 class="subscribe">SUBSCRIBE TO "I LOVE JAVA" CLUB</h2>
+
+   <div class="subscribe_input">
+       <input class="white_input" placeholder="enter your email">
+       <!--<div class="clear1"></div>-->
+       <input class="dark_input" value="SUBSCRIBE" type="submit">
+       <div class="clear2"></div>
+    </div>
+
+    <p class="love_java">i love java! All rights reserved</p>
+
+</div>
+ </div>
+ <!--end of footer-->
+</div>
+</div>
+
 
 
 <script>
-
  function showMore() {
        var container = document.getElementById("container"),
          frontPage = $("#page").attr("value");
+         $('.show').val("...");
+//         $('.show').css("visibility", "hidden");
 
           $.ajax({
             url: "/page/"+frontPage+"?dataType=JSON&time=" + $("#lastDate").attr("value"),
@@ -69,15 +157,19 @@
                             }
                             data[i].message = array.join("");
                         }
-                        wrapper.innerHTML = '<div class="item ' +response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">' + data[i].twitter + ' <a href="view-' + data[i]._id + '" class="view"> View details </a></p></div>';
+                        wrapper.innerHTML = '<li class="item ' +response['page']+ '"> ' +
+                                '<div class="note-inner"><span class="love-heading"><span class="i-love">I<img src="../images/gruop1.png" class="group-img"/>JAVA'+' '+'BECAUSE'+
+                                '</span>'+' <span class="note_message">'+data[i].message + '</span>'+' <span class="twitter">' + data[i].twitter+'</span>'
+                                +'</span>'+'</span>'+'</div>'+
+                                 '<div class="note-overlay">'+'<div class="outer"><div class="middle"><div class="details-btn">'+
+                                '<span class="details">'+'<a href="view-'+data[i]._id+'"class="view">VIEW'+'<img  class="gruop2" src="../images/gruop1.png"/>NOTE</a></span>'+
+                                '<a class="btn" href="">' +'<button class="fb-btn">facebook'+'</button></a>'+'<a class="btn" href="">'+
+                                '<button class="tw-btn">tweet'+'</button></a>'+ '</div>'+ '</div>'+ '</div>'+ '</div>'+ '</li>';
                         var elem = wrapper.firstChild;
-
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
                     }
                 }
-//                $("#lastDate").attr('value', response['lastDate']);
-//                $("#page").attr('value',     response['page']);
             }
 
         });
@@ -104,6 +196,11 @@
 
 $(window).scroll(function() {
 
+   var show = $('.show').val();
+    if(show=="Show more"){
+        return;
+    }
+
     if( frontPage = $("#page").attr("value")>4)
        return true;
 
@@ -112,6 +209,7 @@ $(window).scroll(function() {
 
         var container = document.getElementById("container"),
          frontPage = $("#page").attr("value");
+          $('.show').val("...");
           $('.show').css("visibility", "hidden");
 
         $.ajax({
@@ -140,15 +238,20 @@ $(window).scroll(function() {
                             data[i].message = array.join("");
                         }
 
-                        wrapper.innerHTML = '<div class="item '+response['page']+'"><p class="text">' + data[i].message + '</p> <p class="text">'+ data[i].twitter + '<a href="view-'+ data[i]._id+ '" class="view"> View details </a></p></div>';
+                        wrapper.innerHTML = '<li class="item ' +response['page']+ '"> ' +
+                                '<div class="note-inner"><span class="love-heading"><span class="i-love">I<img src="../images/gruop1.png" class="group-img"/>JAVA'+' '+'BECAUSE'+
+                                '</span>'+' <span class="note_message">'+data[i].message + '</span>'+' <span class="twitter">' + data[i].twitter+'</span>'
+                                +'</span>'+'</span>'+'</div>'+
+                                '<div class="note-overlay">'+'<div class="outer"><div class="middle"><div class="details-btn">'+
+                                '<span class="details">'+'<a href="view-'+data[i]._id+'"class="view">VIEW'+'<img  class="gruop2" src="../images/gruop1.png"/>NOTE</a></span>'+
+                                '<a class="btn" href="">' +'<button class="fb-btn">facebook'+'</button></a>'+'<a class="btn" href="">'+
+                                '<button class="tw-btn">tweet'+'</button></a>'+ '</div>'+ '</div>'+ '</div>'+ '</div>'+ '</li>';
                         var elem = wrapper.firstChild;
                         $('#container').append(elem);
                         $('#container').masonry('appended', elem);
 
                     }
                 }
-//                $("#lastDate").attr('value', response['lastDate']);
-//              $("#page").attr('value', response['page']);
             }
 
         });
@@ -172,28 +275,30 @@ $(window).scroll(function() {
     $(function(){
                 var elem;
                 var _top = $(window).scrollTop();
-
-                $(window).scroll(function() {
+                var scroll = $("#scrollpage").attr("value") || "";
+               $(window).scroll(function() {
                     var _cur_top = $(window).scrollTop();
                     var frontPage = $("#page").attr("value");
+                   var scrollpage=$("#scrollpage").attr("value") || 1;
+                  console.log(scrollpage + "up");
                     if (_top > _cur_top){
-
-                        console.log("up");
-                    for (var i = 1; i < frontPage; i++) {
-                        elem = $("." + i)[0];
+                      console.log("up");
+                    for (; scrollpage < frontPage; scrollpage++) {
+                        elem = $("." + scrollpage)[0];
+                        console.log(elem +"elem");
                         if (isScrolledIntoView(elem)) {
-                            console.log(i + "jh");
+                            console.log(scrollpage + "jh");
                             break;
                         }
+                   }
+                    var up = scrollpage-1;
+                        if(scroll!="" && scroll>up )  {
+                            return true;
+                        }
+                        if (up == 0) {
+                            history.pushState({}, '', 'http://localhost:3000');
+                        }
 
-                        console.log(i);
-                    }
-
-
-                    var up = --i;
-                    if (up == 0) {
-                        history.pushState({}, '', 'http://localhost:3000');
-                    }
                     else {
                         history.pushState({}, '', 'http://localhost:3000/page/' + up);
                     }
@@ -208,31 +313,25 @@ $(window).scroll(function() {
 
         var elem;
         var _top = $(window).scrollTop();
-
         $(window).scroll(function(){
             var _cur_top = $(window).scrollTop();
             var frontPage = $("#page").attr("value");
+            var scrollpage = $("#scrollpage").attr("value") || 1;
             if(_top < _cur_top)
             {
                 console.log("down");
-                for(var i=1; i<frontPage; i++) {
-                    elem = $("." + i)[0];
+                for(; scrollpage<frontPage; scrollpage++) {
+                    elem = $("." + scrollpage)[0];
                     if (isScrolledIntoView(elem)) {
                         break;
                     }
-                   console.log(i);
                 }
-               history.pushState({}, '',  'http://localhost:3000/page/'+i);
+               history.pushState({}, '',  'http://localhost:3000/page/'+scrollpage);
 
             }
             _top = _cur_top;
         });
     });
-
-
-
-
-
 
     function isScrolledIntoView(elem)
     {
@@ -245,10 +344,7 @@ $(window).scroll(function() {
         return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
 
-
 });
-
-
 
 </script>
 </body>

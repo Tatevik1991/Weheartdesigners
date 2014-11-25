@@ -6,31 +6,178 @@
      <script src="/javascripts/jquery-1.11.1.min.js"></script>
 </head>
 
-
-<% for(var i in error) {%>
-<% if (error[i]) { %>
-<p><%- error[i] %></p>
-<% } %>
-<% } %>
 <body>
+<!--header-Sona-->
+<div class="header">
+    <div class="all">
+        <div class="heartlovepower">
+            <div class="heart"></div>
+            <div class="powerlove">
+                <div class="love" > </div>
+               <div class="java"> </div>
+           <span class="power">powered by <span class="exp">expresscurate</span></span>
+            </div>
+            <div class="clear2"></div>
+        </div>
+        <div class="buttons">
+        <a href="http://localhost:3000/form" class="a_link"><button class="add"> ADD LOVE NOTE</button></a>
+            <button class="like">
+             <div class="like_note"></div>
+                <span class="note">LIKE</span>
+            </button>
+        </div>
+    </div>
+    <div class="clear2"></div>
+</div>
+
+<!--header-->
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme : 'clean',
+        lang  : 'en'
+    };
+    </script>
+
 <p id = "error"></p>
-	<form method = "POST" action = "#">
-		<textarea  id = "message" name="message" cols="40" rows ="3" placeholder = "Write some text" maxlength="100"><%=message %></textarea>
-	    <img src="<%=image%>">
-        <input type="hidden" name = "icon" value="<%=image%>" id="icon">
-        <input type = "text" name = "twitter" placeholder = "Your Twitter handle"  value="<%=screen_name %>">
-		<input type = "text"  id = "email"  name = "email" placeholder = "Your email address"  value=" <%=email %>">
-        <div class="recaptcha"><%-recaptchaForm%> </div>
-		<input type = "submit" value = "Submit">
+<!--Sona form content-->
 
-</form>
+<div class="form-all">
+    <form method="post"  action="#" onsubmit="return checkCharacters()">
+        <div class="form-content">
+            <div class="form-love-java">
+         <span> I
+          <img src="../images/form-group.png" class="form-group-img"> JAVA
+           <span class="form-because">BECAUSE</span>
+         </span>
+            </div>
+
+            <div class="form-text">
+                <div class="form-text-error">Please enter the text</div>
+                <textarea id = "message" name="message"  cols="40" rows="4"  maxlength="100" class="form-text-area"><%=message%></textarea>
+            </div>
+        </div>
+        <div class="form-info">
+            <div class="form-sign-recaptcha">
+                <div class="form-sign">
+                    <span class="form-sign-in-as">Sign in as</span>
+                    <input name="twitter" type="text" id="screen_name" placeholder=" your twitter account" value="<%=   screen_name %>" class="form-tweet">
+                    <input name="email" id="email" type="text" placeholder=" your email " value="<%=   email %>" class="form-email">
+                </div>
+                <div class="recaptcha-submit">
+                    <div class="recaptcha"><%-recaptchaForm%> </div>
+                </div><div class="clear2"></div>
+            </div>
+        </div>
+        <div class="form-submit-div">
+            <input  name="submit"  type="submit" onclick="submit()" value="submit" class="form-submit">
+        </div>
+    </form>
+ <!--end of content-->
 
 
-<form method="GET" action="#" onsubmit="return twitterRequest()">
- <input type="submit"  name="twitter" value="twitter" >
-</form>
+    <!--<form method="GET" action="#" onsubmit="return twitterRequest()">-->
+        <!--<div class="form-submit-tweet-div">-->
+            <!--<input  type="submit"  name="twitter"  value="tweet" class="form-sub-tweet">-->
+        <!--</div><div class="clear2"></div>-->
+    <!--</form>-->
+</div>
+
+
+<!--footer-Tatev-->
+<div class="footer">
+    <div class="footer_container">
+        <ul class="footer_ul">
+            <li class="about"> <h2 class="h2">ABOUT</h2>
+        <span class="about_span">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </span>
+            </li>
+
+            <li class="express_curate"><h2 class="h2">EXPRESS CURATE</h2>
+       <span class="express_curate_span">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+         <br>
+         <br>
+         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+         totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.v
+       </span>
+            </li>
+        </ul>
+
+
+
+        <!--footer_content div-->
+        <div class="footer_content">
+            <h2 class="subscribe">SUBSCRIBE TO "I LOVE JAVA" CLUB</h2>
+
+            <div class="subscribe_input">
+                <input class="white_input" placeholder="enter your email">
+                <!--<div class="clear1"></div>-->
+                <input class="dark_input" value="SUBSCRIBE" type="submit">
+                <div class="clear2"></div>
+            </div>
+
+            <p class="love_java">i love java! All rights reserved</p>
+
+        </div>
+    </div>
+    <!--end of footer-->
+</div>
+
 
  <script type="text/javascript">
+
+
+     $( window ).load(function() {
+         var recaptcha_res_field =  $("#recaptcha_response_field");
+         recaptcha_res_field.attr('placeholder','  enter captcha text');
+         recaptcha_res_field.css("border","none");
+         recaptcha_res_field.css("font-size","20px");
+         recaptcha_res_field.css("font-family", "opensans light");
+         $("#recaptcha_reload").attr("src","../images/refresh-btn.png");
+     });
+
+     $(document).ready(function(){
+         var email="<%- error.email %>",
+             message ="<%- error.message%>",
+             twitter ="<%- error.twitter%>";
+
+
+         $(".recaptcha_input_area").attr("placeholder","  enter the captcha text");
+
+
+               if(email){
+                   var email =  $("#email");
+                       email.attr("id","error-email");
+                       email.attr("placeholder","  Please enter the correct email");
+
+                     }
+         $("#message").click(function(){
+             var texterror= $(".form-text-error");
+             texterror.css("visibility","hidden");
+
+         });
+
+         $(".form-text-error").click(function(){
+             var texterror= $(".form-text-error");
+             texterror.css("visibility","hidden");
+
+         });
+           if(message){
+               var message =  $(".form-text-error");
+               var texterror= $(".form-text-error");
+               texterror.css("visibility","visible");
+            }
+          if(twitter){
+              var twitter = $("#screen_name");
+                  twitter.attr("id","error-twitter");
+                  twitter.attr("placeholder","  Please enter your twitter");
+               }
+
+     });
+
+
         function checkCharacters()
         {
             var  message = $("#message");
@@ -39,8 +186,7 @@
                 $("#error").text("errrrr");
                 return false;
             }
-
-            else {return true;}
+          else { return true;}
 
         }
 
@@ -56,9 +202,7 @@
                     console.log(data);
                 }
             })
-        }
-
-
+     }
 </script>
 </body>
 </html>

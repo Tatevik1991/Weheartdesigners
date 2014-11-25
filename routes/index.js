@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var Recaptcha = require('recaptcha').Recaptcha;
-//var db = require('./db.js');
+
 
 var PUBLIC_KEY = '6LeKIfsSAAAAAM2Md2gFYl7_tPNwgG_O9hmxa7qp',
     PRIVATE_KEY = '6LeKIfsSAAAAABqi3rJahR6b_39oL6TLOvVjcBi1';
@@ -16,8 +16,11 @@ var twitter_ = new twitterAPI({
 });
 
 router.get('/login', function (req, res) {
+    var username = "",
+        password = "";
     if (!req.session.admin) {
-        res.render('login');
+        res.render("login",{error: {username: "", password: ""},
+            username: username, password:password});
     }
     else {
         res.redirect('/admin');
@@ -37,6 +40,18 @@ router.post('/login', function (req, res) {
 
     else {
         console.log("Incorrect username or password");
+        if(!username){
+            username="";
+        res.render("login", {error: { username: "enter  correct username", password: ""},username:username,  password: password});
+
+        }
+
+        if(!password){
+          password="";
+        res.render("login", {error: { username: "", password: "enter correct password"},username:username,  password: password});
+
+        }
+
     }
 //    admin.find({username:"AnnA", password:"Anna1234567"}, function (e, data) {
 //
@@ -105,10 +120,12 @@ router.get('/view-:id', function (req, res) {
 router.get('/', function (req, res) {
     var schema = req.app.get('db').model('schema'),
         lastDate = req.query.time || "",
-        page = 1;
+        page = 1,
+        scrollpage = "";
+
     schema.find({status: "approve"}).sort({date: -1}).limit(10).exec(function (error, data) {
         lastDate = data[9].date.getTime();
-        res.render("index", {data: data, lastDate: lastDate, page: page});
+        res.render("index", {data: data, lastDate: lastDate, page: page, scrollpage:scrollpage});
 
     });
 
@@ -119,7 +136,8 @@ router.get('/page/:page', function (req, res) {
     var schema = req.app.get('db').model('schema'),
         lastDate = req.query.time || "",
         page = req.params.page,
-        lastPage = page - 1;
+        lastPage = page,
+        scrollpage =  req.params.page;
 
     if (/^[0-9]*$/.test(page)) {
 
@@ -130,11 +148,12 @@ router.get('/page/:page', function (req, res) {
                     console.log(error);
                 }
 
-                else {
+                 else {
+                    if(data!=""){
                     lastDate = data[9] ? data[9].date.getTime() : null;
                     var result = {status: "success", lastDate: lastDate, data: data, page: page};
                     res.send(result);
-
+                    }
                 }
             });
             return true;
@@ -147,19 +166,14 @@ router.get('/page/:page', function (req, res) {
                 res.redirect("/");
                 return;
             }
-
-
-            schema.find({status: "approve"}).sort({date: -1}).limit( lastPage * 10).exec(function (error, data) {
+          schema.find({status: "approve"}).sort({date: -1}).limit(lastPage * 10).exec(function (error, data) {
                 if (data != "") {
-
                     var time2;
                     time2 = data[ lastPage * 10 - 1].date.getTime();
-                    console.log( data[ lastPage * 10 - 1]._id);
-
                     schema.find({status: "approve", date: {$lt: time2}}).sort({date: -1}).limit(10).exec(function (error, data) {
                         if (data != "") {
                             lastDate = data[9] ? data[9].date.getTime() : null;
-                            res.render("index", {data: data, lastDate: lastDate, page: page});
+                            res.render("index", {data: data, lastDate: lastDate, page: page, scrollpage:scrollpage});
 
                         }
                     });
@@ -265,7 +279,7 @@ router.get('/form', function (req, res) {
                                     twitter = "",
                                     email = "";
                                 console.log(req.session.message + "message",  req.session.email + "email");
-                                res.render("form", {error: {message: "", twitter: "", email: ""}, message: message, email: email,
+                                res.render("form", {error: {message: "", twitter: "", email: ""}, message: req.session.message, email: req.session.email,
                                     twitter: twitter, recaptchaForm: recaptcha.toHTML(), screen_name: twitt_name , image: image});
                             }
                         }
@@ -277,7 +291,7 @@ router.get('/form', function (req, res) {
 
     var twitterLink=req.query.twitter;
 
-   if(twitterLink == "twitter") {
+   if(twitterLink == "tweet") {
        console.log(twitterLink + "twitter");
      if (!req.session.requestToken) {
          console.log(req.session.message + "messagegetreq",  req.session.email + "emailgetreq");
@@ -315,35 +329,35 @@ router.post('/form', function (req, res) {
     };
 
     var recaptcha = new Recaptcha(PUBLIC_KEY, PRIVATE_KEY, data);
-    recaptcha.verify(function (success, error_code) {
-        if (success) {
+//    recaptcha.verify(function (success, error_code) {
+//        if (success) {
             var message = req.body.message,
                 twitter = req.body.twitter,
                 email = req.body.email,
                 icon = req.body.icon,
                 date = new Date();
 
+
            if (!message) {
                 message = "";
-                res.render("form", {error: {email: "", twitter: "", message: "enter message"}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML()});
-
-                return true;
+                res.render("form", {error: {email: "", message: "enter message"}, message: message, email: email, screen_name:twitter, image:icon, recaptchaForm: recaptcha.toHTML()});
+                return false;
             }
             if (message.length > 100) {
-                res.render("form", {error: {email: "", twitter: "", message: "message length >100"}});
-                return true;
+                res.render("form", {error: {email: "enter correct email", twitter:twitter, message: ""}, message: message, email: email, screen_name:twitter, image:icon, recaptchaForm: recaptcha.toHTML()})
+                return false;
             }
 
             if (!twitter) {
                 twitter = "";
-                res.render("form", {error: {email: "", twitter: "enter twitter", message: ""}, message: message, email: email, twitter: twitter,  recaptchaForm: recaptcha.toHTML()});
-                return true;
+                res.render("form", {error: {email: "", twitter: "enter twitter", message: ""}, message: message, email: email, screen_name:twitter, image:icon, recaptchaForm: recaptcha.toHTML()});
+                return false;
             }
 
             if (!validateEmail(email)) {
                 email = "";
-                res.render("form", {error: {email: "enter correct email", twitter: "", message: ""}, message: message, email: email, twitter: twitter, recaptchaForm: recaptcha.toHTML()})
-                return true;
+                res.render("form", {error: {email: "enter correct email", twitter:"", message: ""}, message: message, email: email, screen_name:twitter, image:icon, recaptchaForm: recaptcha.toHTML()})
+                return false;
             } else {
                 console.log("correct");
                 var schema = req.app.get('db').model('schema');
@@ -354,9 +368,9 @@ router.post('/form', function (req, res) {
 
             }
 
-        }
-
-    });
+//        }
+//
+//    });
 });
 
 function validateEmail(email) {

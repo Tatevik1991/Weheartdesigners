@@ -3,16 +3,57 @@
     <title>We Heart Designers</title>
     <meta charset="utf-8">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-1.11.1.min.js"></script>
 </head>
 
-<body>
+<body class="login-content">
+<p id = "error"></p>
 <form method = "POST" action = "#">
-    <input type="text" name = "username" placeholder = "username">
-    <input type="password" name = "password" placeholder = "password">
-    <input type = "submit" value = "LogIn">
-
+   <div class="login-login">
+       <div class="login-middle">
+    <input type="text" name = "username" placeholder = "username" value="<%=username%>" class="login-username">
+    <input type="password" name = "password" placeholder = "password" value="<%=password%>" class="login-password">
+    <input type = "submit" value = "Login" class="login-btn">
+       </div>
+    </div>
 </form>
 
+
+
+
+<script>
+    var username= "<%- error.username%>",
+        password= "<%- error.password%>";
+       console.log(username + "   empty");
+       console.log( password + "   empty");
+
+        if(username){
+            var username = $(".login-username");
+            username.css("border", "2px solid #dd3d36");
+            username.attr("placeholder","Enter the correct username");
+
+        }
+
+    if(password){
+        var password = $(".login-password");
+        password.css("border", "2px solid #dd3d36");
+        password.attr("placeholder","Enter the correct password");
+    }
+
+    if(username=="" && password=="")
+    {
+        var username = $(".login-username");
+        var password = $(".login-password");
+//        username.css("border", "2px solid #dd3d36");
+//        password.css("border", "2px solid #dd3d36");
+        username.css("placeholder","Fill the field");
+        password.css("placeholder","Fill the field");
+    }
+
+    $(".login-login").css("transition-duration","0.3s");
+     $(".login-login").css("transition-timing-function", "linear");
+
+</script>
 </body>
 </html>
 

@@ -4,76 +4,105 @@
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
 
 <body>
+<!--header-->
+<div class="header">
+    <div class="all">
+        <div class="heartlovepower">
+            <div class="heart"></div>
+            <div class="powerlove">
+                <div class="love" > </div>
+                <div class="java"> </div>
+                <span class="power">powered by <span class="exp">expresscurate</span></span>
+            </div>
+            <div class="clear2"></div>
+        </div>
+        <div class="buttons">
+            <a href="http://localhost:3000/form" class="a_link"><button class="add"> ADD LOVE NOTE</button></a>
+            <a  href="http://localhost:3000/">
+            <button class="like">
+                <!--<div class="like_note"></div>-->
+                <span>HOME</span>
+            </button>
+            </a>
+        </div>
+        <div class="clear2"></div>
+        <form method="POST" action="/logout">
+            <input type="submit" value="Logout" class="admin-logout-btn">
+        </form>
+    </div>
+    <div class="clear2"></div>
+</div>
+<!--end of header-->
 
-<form method="POST" action="/logout">
-    <input type="submit" value="LogOut">
-</form>
 
 
-<form method="GET" action="/">
-    <input type="submit" value="Home">
-</form>
 
+<!--<form method="GET" action="/">-->
+    <!--<input type="submit" value="Home">-->
+<!--</form>-->
+<div class="admin">
+<div class="admin-all">
+    <span class="admin-notes-type">NOTES</span>
 <% for(var i in data) { %>
 <% if (data[i]) { %>
 
-<div>
-    ------------------------------------------
-    <p>
-        <%= data[i].message %>
-    </p>
+<div class="admin-note">
+    <div class="admin-note-content">
+  <span><%= data[i].message %></span>
+  <p class="admin-email"><%= data[i].email %></p>
+    <!--<img src="<%=data[i].icon%>">-->
+  <p class="admin-tweet"><%= data[i].twitter %><p>
+    </div>
+</div>
 
-    <p>
-        <%= data[i].email %>
-    </p>
-    <img src="<%=data[i].icon%>">
-    <p>
-        <%= data[i].twitter %>
-    </p>
-
-    <form action="#" method="POST" class="click">
+<form action="#" method="POST" class="click">
+    <div class="admin-label">
+        <div class="admin-label-note-content">
         <label for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
-        <br>
+
         <label for="<%= data[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= data[i]._id %> +2" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
-        <br>
+
         <label for="<%= data[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= data[i]._id %> +3" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
-        <br>
+
+        </div>
+    </div>
         <% } %>
         <% } %>
-        <input type="button" name="submit" id="submit" value="Save" onclick="radio()"/>
+    <input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
+
     </form>
 </div>
 
 
-
-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+<div class="admin-18-all">
+    <span class="admin-notes-type"> NOTES 18+</span>
 <% for(var i in plus) { %>
-<div>
-    ------------------------------------------
-    <p>
-        <%= plus[i].message %>
-    </p>
-
-    <p>
-        <%= plus[i].email %>
-    </p>
-    <img src="<%=plus[i].icon%>">
-    <p>
-        <%= plus[i].twitter %>
-    </p>
-
+<div class="admin-18">
+    <div class="admin-18-content">
+    <span><%= plus[i].message %></span>
+     <p class="admin-email"><%= plus[i].email %></p>
+    <!--<img src="<%=plus[i].icon%>">-->
+    <p class="admin-tweet"><%= plus[i].twitter %> </p>
+    </div>
+   </div>
     <form action="#" method="POST" class="click">
+        <div class="admin-18-label">
+            <div class="admin-label-18-content">
         <label for="<%= plus[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= plus[i]._id %> +1" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
-        <br>
-        <label for="<%= plus[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= plus[i]._id %> +2" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
-        <br>
-        <label for="<%= plus[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= plus[i]._id %> +3" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
-        <br>
-        <% } %>
 
-        <input type="button" name="submit" id="submit" value="Save" onclick="radio()"/>
+        <label for="<%= plus[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= plus[i]._id %> +2" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+
+        <label for="<%= plus[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= plus[i]._id %> +3" name="<%= plus[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+
+            </div>
+            </div>
+        <% } %>
+        <input type="button" name="submit" id="submit" value="Save"  class="admin-save-btn" onclick="radio()"/>
     </form>
 </div>
+<div class="clear2"></div>
+</div>
+
 
 
 <script>
@@ -104,7 +133,5 @@ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
     };
 
 </script>
-
-
 </body>
 </html>

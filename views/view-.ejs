@@ -5,29 +5,95 @@
 
 <body>
 
-<div class="icon">
-    <a href="https://www.facebook.com"><img src="images/fb.png"></a>
-    <a href="https://www.facebook.com"><img src="/images/twitter.png"></a>
-    <a href="https://www.facebook.com"><img src="/images/g+.jpg"></a>
-</div>
-<input type="button" id="prev" value="prev" onclick="prev()">
-<div class="container">
-
-    <div class="item">
-        <p class="text" id="text">
-            <%= data[0].message %>
-        </p>
-        <img src="<%=data[0].icon%>" id="icon">
-        <p class="text" id="twitter">
-            <%= data[0].twitter %>
-        </p>
+<!--header-->
+<div class="header">
+    <div class="all">
+        <div class="heartlovepower">
+            <div class="heart"> </div>
+            <div class="powerlove">
+                <div class="love"></div>
+                <div class="java"> </div>
+                <span class="power">powered by <span class="exp">expresscurate</span></span>
+            </div>
+            <div class="clear2"></div>
+        </div>
+        <div class="buttons">
+            <a href="http://localhost:3000/form" class="a_link"> <button class="add">ADD LOVE NOTE</button></a>
+            <button class="like"> <div class="like_note"></div><span class="note">LIKE</span></button>
+        </div>
     </div>
-
+    <div class="clear2"></div>
 </div>
-<input type="button" id="next" value="next" onclick="next()">
+<!--header-->
+
+
+
+<!--content-->
+<div class="view_content">
+<div id="prev"  class="view_previous" onclick="prev()"></div>
+    <!--<img src="../images/prev.png" class="view_previmg">-->
+  <div class="view_item">
+      <div class="view_inner">
+       <span class="view_love-heading">
+            I
+           <img src="../images/form-group.png" class="view_img">
+               JAVA
+       <span class="because">BECAUSE</span>
+            </span>
+        <div class="view_message" id="text"><%= data[0].message %></div>
+             </span>
+           <div class="view_twitter">
+          <!--<img  id="icon" class="view_image"  src="<%= data[0].icon %>">-->
+           <span class="view_tweet" id="twitter" title="<%= data[0].twitter %>"><%= data[0].twitter %></span>
+            </div>
+          <div class="clear2"></div>
+      </div>
+    </div>
+<div id="next" class="view_next" onclick="next()"></div>
+<div class="clear2"></div>
+</div>
+<!--end of content-->
+
+<!--footer-->
+<div class="footer">
+    <div class="footer_container">
+        <ul class="footer_ul">
+            <li class="about"> <h2 class="h2">ABOUT</h2>
+        <span class="about_span">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </span>
+            </li>
+
+            <li class="express_curate"><h2 class="h2">EXPRESS CURATE</h2>
+       <span class="express_curate_span">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+         <br>
+         <br>
+         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+         totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.v
+       </span>
+            </li>
+        </ul>
+
+  <!--footer_content div-->
+        <div class="footer_content">
+            <h2 class="subscribe">SUBSCRIBE TO "I LOVE JAVA" CLUB</h2>
+
+            <div class="subscribe_input">
+                <input class="white_input" placeholder="enter your email">
+                <!--<div class="clear1"></div>-->
+                <input class="dark_input" value="SUBSCRIBE" type="submit">
+                <div class="clear2"></div>
+            </div>
+
+            <p class="love_java">i love java! All rights reserved</p>
+
+        </div>
+    </div>
+    <!--end of footer-->
+
 <input type="hidden" id="time" value="<%=time%>">
-
-
 
 <script>
 
@@ -35,7 +101,7 @@
        var time = $("#time").val(),
            text = $("#text"),
            twitter = $("#twitter"),
-               icon = $("#icon");
+           icon = $("#icon");
 
        console.log(time);
        $.ajax({
