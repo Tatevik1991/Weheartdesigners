@@ -30,6 +30,7 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res) {
     var username = req.body.username,
         password = req.body.password;
+ console.log(username);
 
     if (username === "AnnA" && password === "12345") {
 
@@ -38,21 +39,24 @@ router.post('/login', function (req, res) {
 
     }
 
-    else {
-        console.log("Incorrect username or password");
-        if(!username){
+     console.log("Incorrect username or password");
+
+        if(username != "AnnA"){
             username="";
-        res.render("login", {error: { username: "enter  correct username", password: ""},username:username,  password: password});
+            password="";
+            console.log("dddddddddddddd");
+        res.render("login", {error:{username:"enter  correct username", password: ""},username:username,  password: password});
 
         }
 
-        if(!password){
+        if(password != "12345"){
           password="";
+           username="";
         res.render("login", {error: { username: "", password: "enter correct password"},username:username,  password: password});
 
         }
 
-    }
+
 //    admin.find({username:"AnnA", password:"Anna1234567"}, function (e, data) {
 //
 //       // console.log(data);

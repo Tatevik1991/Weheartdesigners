@@ -147,13 +147,15 @@
          $(".recaptcha_input_area").attr("placeholder","  enter the captcha text");
 
 
+<<<<<<< Updated upstream
                if(email){
                    var emailId =  $("#email");
                    emailId.attr("id","error-email");
                    emailId.attr("placeholder","  Please enter the correct email");
+=======
+>>>>>>> Stashed changes
 
-                     }
-         $("#message").click(function(){
+           $("#message").click(function(){
              var texterror= $(".form-text-error");
              texterror.css("visibility","hidden");
 
@@ -164,15 +166,23 @@
              texterror.css("visibility","hidden");
 
          });
+
+         if(email){
+             var emailId =  $("#email");
+             emailId.attr("id","error-email");
+             emailId.attr("placeholder","  Please enter the correct email");
+
+         }
+
            if(message){
                var message =  $(".form-text-error");
                var texterror= $(".form-text-error");
                texterror.css("visibility","visible");
             }
           if(twitter){
-              var twitter = $("#screen_name");
-                  twitter.attr("id","error-twitter");
-                  twitter.attr("placeholder","  Please enter your twitter");
+              var twitterId = $("#screen_name");
+                  twitterId.attr("id","error-twitter");
+                  twitterId.attr("placeholder","  Please enter your twitter");
                }
 
      });
@@ -186,9 +196,17 @@
                 $("#error").text("errrrr");
                 return false;
             }
+<<<<<<< Updated upstream
 //          else { return false;}
 //
 //        }
+=======
+//          else {
+//                return false;
+//            }
+
+        }
+>>>>>>> Stashed changes
 
         function  twitterRequest(){
             var message = $("#message").val(),

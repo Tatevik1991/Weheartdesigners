@@ -70,6 +70,7 @@ body { font-family: sans-serif; }
 }
 
 .add{
+
     cursor: pointer;
     text-align: center;
     height: 54px;
@@ -133,10 +134,17 @@ body { font-family: sans-serif; }
 }
 
 .buttons{
+<<<<<<< Updated upstream
     width:361px;
     padding-top: 50px;
     margin-left: 450px;
     /*position: relative;*/
+=======
+    position: relative;
+    width:361px;
+    padding-top: 50px;
+    margin-left: 450px;
+>>>>>>> Stashed changes
 }
 
 .powerlove{
@@ -785,6 +793,23 @@ textarea:focus, input:focus{
 
 
 /*admin ejs*/
+
+
+.admin-logout-btn {
+    width: 119px;
+    height: 54px;
+    border: none;
+    background-color: #26a69a;
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    margin-top: -54px;
+    margin-right: -134px;
+}
+
 input[type="radio"]{
     vertical-align: bottom;
 }
@@ -873,6 +898,7 @@ input[type="radio"]{
     color: #ffffff;
     cursor: pointer;
 }
+<<<<<<< Updated upstream
 .admin-logout-btn{
     width: 119px;
     height: 54px;
@@ -887,6 +913,8 @@ input[type="radio"]{
     margin-top: -54px;
     margin-right: -134px;
 }
+=======
+>>>>>>> Stashed changes
 
 /*end of admin ejs*/
 
