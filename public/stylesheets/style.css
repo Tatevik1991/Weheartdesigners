@@ -133,9 +133,10 @@ body { font-family: sans-serif; }
 }
 
 .buttons{
-    width: 470px;
-    margin-top: -51px;
-    margin-left: 740px;
+    width:361px;
+    padding-top: 50px;
+    margin-left: 450px;
+    /*position: relative;*/
 }
 
 .powerlove{
@@ -148,6 +149,7 @@ body { font-family: sans-serif; }
 }
 
 .all{
+    /*position: relative;*/
     width: 1311px;
     margin: 0 auto;
 }
@@ -786,6 +788,13 @@ textarea:focus, input:focus{
 input[type="radio"]{
     vertical-align: bottom;
 }
+
+
+
+/*.admin-login-btn{*/
+    /*position: absolute;*/
+/*}*/
+
 .admin{
     margin: 80px auto;
     width: 920px;
@@ -876,8 +885,9 @@ input[type="radio"]{
     cursor: pointer;
     float: right;
     margin-top: -54px;
-    margin-right: 80px;
+    margin-right: -134px;
 }
+
 /*end of admin ejs*/
 
 

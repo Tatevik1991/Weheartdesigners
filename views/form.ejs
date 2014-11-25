@@ -148,9 +148,9 @@
 
 
                if(email){
-                   var email =  $("#email");
-                       email.attr("id","error-email");
-                       email.attr("placeholder","  Please enter the correct email");
+                   var emailId =  $("#email");
+                   emailId.attr("id","error-email");
+                   emailId.attr("placeholder","  Please enter the correct email");
 
                      }
          $("#message").click(function(){
@@ -186,9 +186,9 @@
                 $("#error").text("errrrr");
                 return false;
             }
-          else { return true;}
-
-        }
+//          else { return false;}
+//
+//        }
 
         function  twitterRequest(){
             var message = $("#message").val(),
