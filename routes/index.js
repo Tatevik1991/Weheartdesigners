@@ -39,21 +39,19 @@ router.post('/login', function (req, res) {
 
     }
 
-     console.log("Incorrect username or password");
-
-        if(username != "AnnA"){
+    if(username != "AnnA"){
             username="";
             password="";
             console.log("dddddddddddddd");
-        res.render("login", {error:{username:"enter  correct username", password: ""},username:username,  password: password});
-
+        res.render("login", {error:{username:"enter  correct username", password:""},username:username,  password: password});
+       return false;
         }
 
         if(password != "12345"){
           password="";
            username="";
         res.render("login", {error: { username: "", password: "enter correct password"},username:username,  password: password});
-
+            return false;
         }
 
 
