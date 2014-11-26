@@ -248,7 +248,7 @@ router.post('/logout', function (req, res) {
 });
 
 
-router.get('/form', function (req, res) {
+router.get('/express-your-love', function (req, res) {
     if(req.query.dataType =="JSON"){
       req.session.message = req.query.message;
       req.session.email = req.query.email;
@@ -325,7 +325,7 @@ router.get('/form', function (req, res) {
 });
 
 
-router.post('/form', function (req, res) {
+router.post('/express-your-love', function (req, res) {
     var data = {
         remoteip: req.connection.remoteAddress,
         challenge: req.body.recaptcha_challenge_field,
@@ -366,10 +366,14 @@ router.post('/form', function (req, res) {
                 var result18plus="";
 
                 for (var i = 0; i < message.length; i++) {
-                var result = message.split(" ");
-                for (var j = 0; j <result.length; j++) {
-                    if (result[j] == "aaa") {
-                        result18plus="yes";}
+                var result =  message.split(" ");
+
+               for (var j = 0; j <result.length; j++) {
+                    if (result[j] =="aaa") {
+                        console.log(result[j]);
+                        result18plus="yes";
+                        break;
+                    }
                     else{
                         result18plus="no"
                         }
