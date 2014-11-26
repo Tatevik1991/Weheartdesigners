@@ -33,6 +33,8 @@
 
 body { font-family: sans-serif; }
 
+
+
 /**************header************/
 .add:hover{
     background-color: #086057;
@@ -815,102 +817,84 @@ input[type="radio"]{
 
 
 
-/*.admin-login-btn{*/
-    /*position: absolute;*/
+/*.admin{*/
+    /*margin: 80px auto;*/
+    /*width: 920px;*/
+
 /*}*/
 
-.admin{
-    margin: 80px auto;
-    width: 920px;
-
-}
-
-.admin-note, .admin-18{
-    width: 420px;
-    height: auto;
-    background-color: #26a69a;
-    padding-top: 20px;
-    margin-top: 20px;
-    line-height: 30px;
+/*.admin-note, .admin-18{*/
+    /*width: 420px;*/
+    /*height: auto;*/
+    /*background-color: #26a69a;*/
+    /*padding-top: 20px;*/
+    /*margin-top: 20px;*/
+    /*line-height: 30px;*/
     /*float: left;*/
-}
+/*}*/
 
-.admin-note-content, .admin-18-content{
-    width: 380px;
-    height: auto;
-    margin: 0 auto;
-    font-size: 25px;
-    background-color: #26a69a;
-    color: #ffffff;
+/*.admin-note-content, .admin-18-content{*/
+    /*width: 380px;*/
+    /*height: auto;*/
+    /*margin: 0 auto;*/
+    /*font-size: 25px;*/
+    /*background-color: #26a69a;*/
+    /*color: #ffffff;*/
     /*float: left;*/
-}
-.admin-all, .admin-18-all{
-    float: left;
+/*}*/
+/*.admin-all, .admin-18-all{*/
+    /*float: left;*/
 
-}
-.admin-18-all{
-    margin-left: 50px;
-}
-.admin-label, .admin-18-label{
-    margin-bottom: 20px;
-    width: 420px;
-    height: auto;
-    background-color: #26a69a;
+/*}*/
+/*.admin-18-all{*/
+    /*margin-left: 50px;*/
+/*}*/
+/*.admin-label, .admin-18-label{*/
+    /*margin-bottom: 20px;*/
+    /*width: 420px;*/
+    /*height: auto;*/
+    /*background-color: #26a69a;*/
     /*padding-left: 15px;*/
-}
-.admin-label-note-content, .admin-label-18-content{
-    color: #ffffff;
-    font-size: 15px;
-    height: auto;
-    background-color: #26a69a;
-    padding: 20px 0px 20px 20px;
+/*}*/
+/*.admin-label-note-content, .admin-label-18-content{*/
+    /*color: #ffffff;*/
+    /*font-size: 15px;*/
+    /*height: auto;*/
+    /*background-color: #26a69a;*/
+    /*padding: 20px 0px 20px 20px;*/
 
-}
-.admin-email{
-    margin-top: 20px;
-}
-.admin-email, .admin-tweet{
-    color: #00796b;
-}
+/*}*/
+/*.admin-email{*/
+    /*margin-top: 20px;*/
+/*}*/
+/*.admin-email, .admin-tweet{*/
+    /*color: #00796b;*/
+/*}*/
 
-.admin-tweet{
-    margin-top: 5px;
-}
-.admin-notes-type{
-    padding-bottom: 20px;
-    font-size: 25px;
-    color: #535354;
-}
-.admin-save-btn{
-    width: 100px;
-    height: 40px;
-    border: none;
-    background-color: #26a69a;
-    margin-top: 15px;
-    color: #ffffff;
-    font-size: 22px;
-    border: none;
-    border-radius: 2px;
-}
-.admin-save-btn:hover{
-    background-color: #00796b;
-    color: #ffffff;
-    cursor: pointer;
-}
-.admin-logout-btn{
-    width: 119px;
-    height: 54px;
-    border: none;
-    background-color: #26a69a;
-    margin-top: 15px;
-    color: #ffffff;
-    font-size: 22px;
-    border: none;
-    cursor: pointer;
-    float: right;
-    margin-top: -54px;
-    margin-right: -134px;
-}
+/*.admin-tweet{*/
+    /*margin-top: 5px;*/
+/*}*/
+/*.admin-notes-type{*/
+    /*padding-bottom: 20px;*/
+    /*font-size: 25px;*/
+    /*color: #535354;*/
+/*}*/
+/*.admin-save-btn{*/
+    /*width: 100px;*/
+    /*height: 40px;*/
+    /*border: none;*/
+    /*background-color: #26a69a;*/
+    /*margin-top: 15px;*/
+    /*color: #ffffff;*/
+    /*font-size: 22px;*/
+    /*border: none;*/
+    /*border-radius: 2px;*/
+/*}*/
+/*.admin-save-btn:hover{*/
+    /*background-color: #00796b;*/
+    /*color: #ffffff;*/
+    /*cursor: pointer;*/
+/*}*/
 
 /*end of admin ejs*/
 

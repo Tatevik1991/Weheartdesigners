@@ -30,19 +30,18 @@
         console.log(password + "   empty");
 
         if (username) {
-            var usernameId = $(".login-username");
-            usernameId.css("border", "2px solid #dd3d36");
-            usernameId.attr("placeholder", "Enter the correct username");
-            var loginId=$(".login-login");
-//            loginId.css("transition-property", "left, right");
-//            loginId.css("transition-duration", "1s,1s");
+            var usernameClass = $(".login-username");
+            usernameClass.css("border", "2px solid #dd3d36");
+            usernameClass.attr("placeholder", "Enter the correct username");
+//            $(".login-username").transition({ color:"green" });
+
         }
 
         if (password) {
-            var passwordId = $(".login-password");
-            passwordId.css("border", "2px solid #dd3d36");
-            passwordId.attr("placeholder", "Enter the correct password");
-            var loginId=$(".login-login");
+            var passwordClass = $(".login-password");
+            passwordClass.css("border", "2px solid #dd3d36");
+            passwordClass.attr("placeholder", "Enter the correct password");
+
 //           loginId.css("webkit-transition", "left, right");
 //           loginId.css("transition-duration", "1s,1s");
         }
