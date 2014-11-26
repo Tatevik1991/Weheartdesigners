@@ -70,7 +70,6 @@ body { font-family: sans-serif; }
 }
 
 .add{
-
     cursor: pointer;
     text-align: center;
     height: 54px;
@@ -134,17 +133,14 @@ body { font-family: sans-serif; }
 }
 
 .buttons{
-<<<<<<< Updated upstream
-    width:361px;
+ width:361px;
     padding-top: 50px;
     margin-left: 450px;
-    /*position: relative;*/
-=======
     position: relative;
     width:361px;
     padding-top: 50px;
     margin-left: 450px;
->>>>>>> Stashed changes
+
 }
 
 .powerlove{
@@ -157,7 +153,6 @@ body { font-family: sans-serif; }
 }
 
 .all{
-    /*position: relative;*/
     width: 1311px;
     margin: 0 auto;
 }
@@ -230,7 +225,6 @@ body { font-family: sans-serif; }
 }
 
 .subscribe{
-    /*font-weight: bold;*/
     color: #ffffff;
     font-size: 24px;
     font-family: "Segoe UI Semibol";
@@ -462,7 +456,6 @@ body { font-family: sans-serif; }
 
 .form-love-java{
     letter-spacing: 1px;
-    /*margin: 0 auto;*/
     margin-left: 75px;
     width: 959px;
     color: #ffffff;
@@ -732,7 +725,13 @@ textarea:focus, input:focus{
     height: 250px;
     border-radius: 5px;
     box-shadow: 0px 7px 20px #0f544d;
+    transition: background-color 0.5s ease;
+    /*transition-duration:0.3s;*/
+    /*transition-timing-function:liner;*/
+    /*line-height: 1.4em;*/
+
 }
+
 .login-middle{
     width: 300px;
     height: 140px;
@@ -898,7 +897,6 @@ input[type="radio"]{
     color: #ffffff;
     cursor: pointer;
 }
-<<<<<<< Updated upstream
 .admin-logout-btn{
     width: 119px;
     height: 54px;
@@ -913,8 +911,6 @@ input[type="radio"]{
     margin-top: -54px;
     margin-right: -134px;
 }
-=======
->>>>>>> Stashed changes
 
 /*end of admin ejs*/
 

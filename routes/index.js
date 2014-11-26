@@ -19,8 +19,8 @@ router.get('/login', function (req, res) {
     var username = "",
         password = "";
     if (!req.session.admin) {
-        res.render("login",{error: {username: "", password: ""},
-            username: username, password:password});
+        res.render("login",{error:{username:"", password:""},
+            username:username, password: req.session.password});
     }
     else {
         res.redirect('/admin');
@@ -30,30 +30,38 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res) {
     var username = req.body.username,
         password = req.body.password;
- console.log(username);
+      console.log(username);
 
     if (username === "AnnA" && password === "12345") {
-
         req.session.admin = req.body;
         res.redirect("/admin");
+      }
 
+     else{
+
+    if(username != "AnnA") {
+        username = "";
+        password = "";
+        console.log("dddddddddddddd");
+        res.render("login", {error: {username: "enter  correct username", password: ""}, username:username, password:password});
+        return false;
     }
-
-    if(username != "AnnA"){
-            username="";
-            password="";
-            console.log("dddddddddddddd");
-        res.render("login", {error:{username:"enter  correct username", password:""},username:username,  password: password});
-       return false;
-        }
-
         if(password != "12345"){
-          password="";
+           password="";
            username="";
-        res.render("login", {error: { username: "", password: "enter correct password"},username:username,  password: password});
+           console.log("aaa");
+        res.render("login", {error: { username: "", password: "enter correct password"},username:username, password:password});
             return false;
         }
 
+        if(username!= "AnnA" && password != "12345"){
+            password="";
+            username="";
+            console.log("a111");
+            res.render("login", {error: { username: "enter  correct username", password: "enter correct password"},username:username, password:password});
+            return false;
+        }
+    }
 
 //    admin.find({username:"AnnA", password:"Anna1234567"}, function (e, data) {
 //

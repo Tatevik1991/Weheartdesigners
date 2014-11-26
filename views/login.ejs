@@ -25,7 +25,7 @@
 
     $(document).ready(function() {
         var username = "<%- error.username%>",
-                password = "<%- error.password%>";
+            password = "<%- error.password%>";
         console.log(username + "   empty");
         console.log(password + "   empty");
 
@@ -33,28 +33,19 @@
             var usernameId = $(".login-username");
             usernameId.css("border", "2px solid #dd3d36");
             usernameId.attr("placeholder", "Enter the correct username");
-
+            var loginId=$(".login-login");
+//            loginId.css("transition-property", "left, right");
+//            loginId.css("transition-duration", "1s,1s");
         }
 
         if (password) {
             var passwordId = $(".login-password");
             passwordId.css("border", "2px solid #dd3d36");
             passwordId.attr("placeholder", "Enter the correct password");
+            var loginId=$(".login-login");
+//           loginId.css("webkit-transition", "left, right");
+//           loginId.css("transition-duration", "1s,1s");
         }
-
-//
-//    if(username=="" && password=="")
-//    {
-//        var username = $(".login-username");
-//        var password = $(".login-password");
-////        username.css("border", "2px solid #dd3d36");
-////        password.css("border", "2px solid #dd3d36");
-//        username.css("placeholder","Fill the field");
-//        password.css("placeholder","Fill the field");
-//    }
-
-        $(".login-login").css("transition-duration", "0.3s");
-        $(".login-login").css("transition-timing-function", "linear");
     })
 </script>
 </body>
