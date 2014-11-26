@@ -366,6 +366,7 @@ router.post('/express-your-love', function (req, res) {
                 var result18plus="";
 
                 for (var i = 0; i < message.length; i++) {
+<<<<<<< Updated upstream
                 var result =  message.split(" ");
 
                for (var j = 0; j <result.length; j++) {
@@ -374,6 +375,15 @@ router.post('/express-your-love', function (req, res) {
                         result18plus="yes";
                         break;
                     }
+=======
+                var result = message.split(" ");
+                for (var j = 0; j <result.length; j++) {
+                    if (result[j] == "aaa") {
+                        result18plus="yes";
+                        break;
+                    }
+
+>>>>>>> Stashed changes
                     else{
                         result18plus="no"
                         }

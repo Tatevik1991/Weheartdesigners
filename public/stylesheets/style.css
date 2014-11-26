@@ -231,7 +231,7 @@ body { font-family: sans-serif; }
 .subscribe{
     color: #ffffff;
     font-size: 24px;
-    font-family: "Segoe UI Semibol";
+    font-family: "Segoe UI Semibold";
     padding: 20px 0 20px 50px;
 }
 
@@ -256,7 +256,7 @@ body { font-family: sans-serif; }
 
 .dark_input{
     width: 200px;
-    height: 55px;
+    height: 61px;
     background-color: #00897b;
     text-align: center;
     color: #ffffff;
@@ -264,6 +264,7 @@ body { font-family: sans-serif; }
     border-color:  #00897b;
     border: 1px;
     cursor: pointer;
+    font-family: "Segoe UI Semibold";
 }
 
 .clear2{
@@ -274,7 +275,7 @@ body { font-family: sans-serif; }
     color: #bfbfbd;
     margin: 0 auto;
     width: 261px;
-    height: 20px;
+    /*height: 20px;*/
     font-size: 20px;
     padding-top: 57px;
 }
@@ -371,7 +372,7 @@ body { font-family: sans-serif; }
 .twitter{
     font-size:25px;
     color:#00796b;
-    padding-top:30px;
+    padding-top:20px;
     display: block;
     text-align: right;
     font-family: "Lobster_1.3";
@@ -796,8 +797,6 @@ textarea:focus, input:focus{
 
 
 /*admin ejs*/
-
-
 .admin-logout-btn {
     width: 119px;
     height: 54px;
@@ -817,7 +816,17 @@ input[type="radio"]{
     vertical-align: bottom;
 }
 
+/*.item-admin{*/
+    /*width: 381px;*/
+    /*background: #3bafa4;*/
+    /*margin:10px;*/
+/*}*/
 
+/*.item-admin-label{*/
+    /*width: 381px;*/
+    /*background: #3bafa4;*/
+    /*margin:10px;*/
+/*}*/
 
 /*.admin{*/
     /*margin: 80px auto;*/

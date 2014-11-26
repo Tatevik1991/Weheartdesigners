@@ -2,6 +2,7 @@
 <html>
 <link rel='stylesheet' href='/stylesheets/style.css'/>
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
+<script src="http://masonry.desandro.com/masonry.pkgd.min.js"></script>
 
 <body>
 <!--header-->
@@ -49,22 +50,17 @@
 
 
 <div class="admin">
-<div class="admin-all">
-    <span class="admin-notes-type">NOTES</span>
+<div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
 <% for(var i in data) { %>
-<% if (data[i]) { %>
-
-<div class="admin-note">
-    <div class="admin-note-content">
+ <div  class="item-admin 18plus=<%= data[i].status18%>">
   <span><%= data[i].message %></span>
   <p class="admin-email"><%= data[i].email %></p>
     <!--<img src="<%=data[i].icon%>">-->
   <p class="admin-tweet"><%= data[i].twitter %><p>
-    </div>
-</div>
+ </div>
 
 <form action="#" method="POST" class="click">
-    <div class="admin-label">
+    <div class="item-admin-label">
         <div class="admin-label-note-content">
         <label for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
@@ -74,8 +70,8 @@
 
         </div>
     </div>
-        <% } %>
-        <% } %>
+
+   <% } %>
     <input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
 
     </form>
