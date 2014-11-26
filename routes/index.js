@@ -16,11 +16,11 @@ var twitter_ = new twitterAPI({
 });
 
 router.get('/login', function (req, res) {
-    var username = "",
-        password = "";
+//    var username = "",
+//        password = "";
     if (!req.session.admin) {
         res.render("login",{error:{username:"", password:""},
-            username:username, password: req.session.password});
+            username:"", password:""});
     }
     else {
         res.redirect('/admin');
@@ -32,35 +32,38 @@ router.post('/login', function (req, res) {
         password = req.body.password;
       console.log(username);
 
-    if (username === "AnnA" && password === "12345") {
+    if (username === "java" && password === "java") {
         req.session.admin = req.body;
         res.redirect("/admin");
       }
 
      else{
 
-    if(username != "AnnA") {
-        username = "";
-        password = "";
-        console.log("dddddddddddddd");
-        res.render("login", {error: {username: "enter  correct username", password: ""}, username:username, password:password});
-        return false;
-    }
-        if(password != "12345"){
-           password="";
-           username="";
-           console.log("aaa");
-        res.render("login", {error: { username: "", password: "enter correct password"},username:username, password:password});
-            return false;
-        }
-
-        if(username!= "AnnA" && password != "12345"){
+        if(username!= "java" && password != "java"){
             password="";
             username="";
             console.log("a111");
             res.render("login", {error: { username: "enter  correct username", password: "enter correct password"},username:username, password:password});
             return false;
         }
+
+
+    if(username != "java") {
+        username = "";
+
+        console.log("dddddddddddddd");
+        res.render("login", {error: {username: "enter  correct username", password: ""}, username:username, password:password});
+        return false;
+    }
+        if(password != "java"){
+
+            password="";
+           console.log("aaa");
+        res.render("login", {error: { username: "", password: "enter correct password"},username:username, password:password});
+            return false;
+        }
+
+
     }
 
 //    admin.find({username:"AnnA", password:"Anna1234567"}, function (e, data) {
@@ -213,17 +216,8 @@ router.get('/admin', function (req, res) {
         var schema = req.app.get('db').model('schema'),
             plus = [];
         schema.find({status: "pending"}, function (error, data) {
-            for (var i = 0; i < data.length; i++) {
-                var result = data[i].message.split(" ");
-                for (var j = 0; j < result.length; j++) {
-                    if (result[j] == "bbb") {
-                        plus.push(data[i]);
-                        data[i] = "";
-                        break;
-                    }
-                }
-            }
-            res.render("admin", {data: data, plus: plus});
+
+            res.render("admin", {data: data });
 
         });
     }
@@ -369,9 +363,24 @@ router.post('/form', function (req, res) {
                 res.render("form", {error: {email: "enter correct email", twitter:"", message: ""}, message: message, email: email, screen_name:twitter, image:icon, recaptchaForm: recaptcha.toHTML()})
                 return false;
             } else {
-                console.log("correct");
+                var result18plus="";
+
+                for (var i = 0; i < message.length; i++) {
+                var result = message.split(" ");
+                for (var j = 0; j <result.length; j++) {
+                    if (result[j] == "aaa") {
+                        result18plus="yes";}
+                    else{
+                        result18plus="no"
+                        }
+
+                    }
+                }
+
+   console.log(message+"  "+ result18plus);
+
                 var schema = req.app.get('db').model('schema');
-                schema({twitter: twitter, icon:icon, email: email, message: message, status: "pending", date: date}).save(function (e) {
+                schema({twitter: twitter, icon:icon, email: email, message: message, status: "pending", date: date, status18:result18plus}).save(function (e) {
                     console.log('successfully saved');
                     res.redirect("/form");
                 });

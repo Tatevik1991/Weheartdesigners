@@ -9,8 +9,8 @@ var schema = mongoose.Schema({
 	email:   String,
     status: String,
     icon:   String,
-    date:  Date
-
+    date:  Date,
+    status18:String
 });
 
  var admin = mongoose.Schema({
