@@ -3,8 +3,8 @@
 <link rel='stylesheet' href='/stylesheets/style.css'/>
 <script src="/javascripts/jquery-1.11.1.min.js"></script>
 
-<body>
 
+<body>
 <!--header-->
 <div class="header">
     <div class="all">
@@ -56,7 +56,8 @@
 </div>
 <!--end of content-->
 
-<!--footer-->
+
+<!--footer-Tatev-->
 <div class="footer">
     <div class="footer_container">
         <ul class="footer_ul">
@@ -78,14 +79,15 @@
             </li>
         </ul>
 
-  <!--footer_content div-->
+
+
+        <!--footer_content div-->
         <div class="footer_content">
             <h2 class="subscribe">SUBSCRIBE TO "I LOVE JAVA" CLUB</h2>
 
             <div class="subscribe_input">
                 <input class="white_input" placeholder="enter your email">
-                <!--<div class="clear1"></div>-->
-                <input class="dark_input" value="SUBSCRIBE" type="submit">
+                <input class="dark_input1" value="SUBSCRIBE" type="submit">
                 <div class="clear2"></div>
             </div>
 
@@ -94,6 +96,7 @@
         </div>
     </div>
     <!--end of footer-->
+</div>
 
 <input type="hidden" id="time" value="<%=time%>">
 
@@ -134,7 +137,7 @@
                    twitter.html(response["data"][0].twitter);
                    icon.attr("src",response["data"][0].icon);
                    $("#time").attr('value',response['prevTime']);
-                  history.pushState({}, '', 'http://localhost:3000/view-'+response['id']);
+                  history.pushState({}, '', 'http://localhost:3000/I-love-java-because-' +response["data"][0].message +'-'+response['id']);
      }
 
        });
@@ -173,12 +176,12 @@
                    twitter.html(response["data"][0].twitter);
                    icon.attr("src",response["data"][0].icon);
                    $("#time").attr('value',response['nextTime']);
-                  history.pushState({}, '', 'http://localhost:3000/view-'+response['id']);
+                  history.pushState({}, '', 'http://localhost:3000/I-love-java-because-'+response["data"][0].message+'-'+response['id']);
             }
 
        });
+ }
 
-   }
 </script>
 </body>
 </html>

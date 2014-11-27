@@ -85,7 +85,7 @@ router.post('/login', function (req, res) {
 });
 
 
-router.get('/view-:id', function (req, res) {
+router.get('/I-love-java-because-:id', function (req, res) {
     var db = req.app.get('db'),
         schema = db.model('schema'),
         id = req.params.id,
@@ -123,7 +123,7 @@ router.get('/view-:id', function (req, res) {
 
     schema.find({_id:id}, function (err, data) {
         var time = data[0].date.getTime();
-        res.render("view-", {data: data, time: time});
+        res.render("I-love-java-because-", {data: data, time: time});
 
     })
 
@@ -198,9 +198,9 @@ router.get('/page/:page', function (req, res) {
         return true;
     }
 
-        if (page.match(/(^view-)(\w|\d){1,}/g)) {
+        if (page.match(/(^I-love-java-because-)(\w|\d){1,}/g)) {
             var array1 = page.split("-");
-            res.redirect("/view-" + array1[1]);
+            res.redirect('/I-love-java-because-' + array1[1]);
         }
         else {
 //        console.log("wrong value!!!");
@@ -363,44 +363,44 @@ router.post('/express-your-love', function (req, res) {
                 res.render("form", {error: {email: "enter correct email", twitter:"", message: ""}, message: message, email: email, screen_name:twitter, image:icon, recaptchaForm: recaptcha.toHTML()})
                 return false;
             } else {
-                var result18plus="";
+                var result18plus = "";
 
                 for (var i = 0; i < message.length; i++) {
-<<<<<<< Updated upstream
-                var result =  message.split(" ");
 
-               for (var j = 0; j <result.length; j++) {
-                    if (result[j] =="aaa") {
-                        console.log(result[j]);
-                        result18plus="yes";
-                        break;
-                    }
-=======
-                var result = message.split(" ");
-                for (var j = 0; j <result.length; j++) {
-                    if (result[j] == "aaa") {
-                        result18plus="yes";
-                        break;
-                    }
+                    var result = message.split(" ");
 
->>>>>>> Stashed changes
-                    else{
-                        result18plus="no"
+                    for (var j = 0; j < result.length; j++) {
+                        if (result[j] == "aaa") {
+                            console.log(result[j]);
+                            result18plus = "yes";
+                            break;
                         }
 
+                        var result = message.split(" ");
+                        for (var j = 0; j < result.length; j++) {
+                            if (result[j] == "aaa") {
+                                result18plus = "yes";
+                                break;
+                            }
+
+
+                            else {
+                                result18plus = "no"
+                            }
+
+                        }
                     }
+
+                    console.log(message + "  " + result18plus);
+
+                    var schema = req.app.get('db').model('schema');
+                    schema({twitter: twitter, icon: icon, email: email, message: message, status: "pending", date: date, status18: result18plus}).save(function (e) {
+                        console.log('successfully saved');
+                        res.redirect('/express-your-love');
+                    });
+
                 }
-
-   console.log(message+"  "+ result18plus);
-
-                var schema = req.app.get('db').model('schema');
-                schema({twitter: twitter, icon:icon, email: email, message: message, status: "pending", date: date, status18:result18plus}).save(function (e) {
-                    console.log('successfully saved');
-                    res.redirect("/form");
-                });
-
             }
-
 //        }
 //
 //    });

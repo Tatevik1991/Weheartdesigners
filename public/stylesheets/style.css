@@ -164,7 +164,7 @@ body { font-family: sans-serif; }
 /*footer*/
 .footer{
     width: 100%;
-    height: 513px;
+    height: 583px;
     background-color: #f4f4f4;
 }
 
@@ -232,36 +232,49 @@ body { font-family: sans-serif; }
     color: #ffffff;
     font-size: 24px;
     font-family: "Segoe UI Semibold";
-    padding: 20px 0 20px 50px;
+    padding: 20px 0 20px 47px;
 }
 
 .subscribe_input{
-    width: 1005px;
+    width: 1004px;
     height: 55px;
     padding: 0 0 37px 50px;
-    margin-left: 50px;
+    margin-left: 47px;
 }
 
 .subscribe_input>input{
     float: left;
 }
 .white_input{
-    width: 805px;
+    width: 804px;
     height: 55px;
     margin-left: -50px;
     text-indent: 20px;
+    font-family: "Segoe UI Light";
     font-size: 18px;
 }
 
 
 .dark_input{
     width: 200px;
+    height: 55px;
+    background-color: #00897b;
+    text-align: center;
+    color: #ffffff;
+    font-size: 24px;
+    /*border-color:  #00897b;*/
+    border: 1px;
+    cursor: pointer;
+    font-family: "Segoe UI Semibold";
+}
+.dark_input1{
+    width: 200px;
     height: 61px;
     background-color: #00897b;
     text-align: center;
     color: #ffffff;
     font-size: 24px;
-    border-color:  #00897b;
+    /*border-color:  #00897b;*/
     border: 1px;
     cursor: pointer;
     font-family: "Segoe UI Semibold";
@@ -275,9 +288,10 @@ body { font-family: sans-serif; }
     color: #bfbfbd;
     margin: 0 auto;
     width: 261px;
-    /*height: 20px;*/
     font-size: 20px;
-    padding-top: 57px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    font-family: "opensans light";
 }
 
 /*end of footer*/
@@ -816,6 +830,10 @@ input[type="radio"]{
     vertical-align: bottom;
 }
 
+.item-admin18plus{
+
+
+}
 /*.item-admin{*/
     /*width: 381px;*/
     /*background: #3bafa4;*/

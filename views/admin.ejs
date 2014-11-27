@@ -49,16 +49,18 @@
 
 
 
-<div class="admin">
+
 <div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
 <% for(var i in data) { %>
- <div  class="item-admin 18plus=<%= data[i].status18%>">
+ <div  class="item-admin18plus=<%= data[i].status18%>">
   <span><%= data[i].message %></span>
   <p class="admin-email"><%= data[i].email %></p>
     <!--<img src="<%=data[i].icon%>">-->
   <p class="admin-tweet"><%= data[i].twitter %><p>
  </div>
+    </div>
 
+<div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
 <form action="#" method="POST" class="click">
     <div class="item-admin-label">
         <div class="admin-label-note-content">
@@ -73,9 +75,8 @@
 
    <% } %>
     <input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
-
     </form>
-</div>
+    </div>
 
 
 
