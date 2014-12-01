@@ -1045,4 +1045,85 @@ input[type="radio"]{
     clear: both;
 }
 /*end of view-ejs*/
+/*****admin****/
 
+.admin-logout-btn {
+    width: 119px;
+    height: 54px;
+    border: none;
+    background-color: #26a69a;
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    margin-top: -54px;
+    margin-right: -134px;
+}
+
+input[type="radio"]{
+    vertical-align: bottom;
+}
+
+.item-admin{
+    width: 381px;
+    background: #3bafa4;
+    margin:10px;
+}
+
+.admin-note-inner{
+    padding: 30px 40px 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.admin-message{
+    font-size: 27px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    color: white;
+    box-sizing: border-box;
+    font-family: "Segoe UI Semibold";
+    line-height: 28px;
+}
+.admin-btn{
+    font-size: 20px;
+    color: #00796b;
+    display: block;
+    font-family: "Lobster_1.3";
+}
+.admin-email{
+    margin-top: 15px;
+}
+.admin-tweet{
+    margin-top: 7px;
+}
+
+.admin-label-note-content{
+    width: 266px;
+    font-size: 19px;
+    margin-top: 15px;
+    color: white;
+    font-family: "opensunLight";
+}
+.admin-save-btn{
+    font-size: 16px;
+    color: white;
+    width: 55px;
+    background-color: #26a69a;
+    font-family: cursive;
+    border: none;
+    text-align: center;
+    margin: 35px auto 55px 46.7%;
+}
+.admin-up-btn {
+    float: right;
+    margin-right: 85px;
+
+}
+.scrollup {
+    top:50%;
+    position: fixed;
+}

@@ -5,6 +5,7 @@
 <script src="http://masonry.desandro.com/masonry.pkgd.min.js"></script>
 
 <body>
+<a name="#"></a>
 <!--header-->
 <div class="header">
     <div class="all">
@@ -20,79 +21,65 @@
             </a>
         </div>
         <div class="buttons">
-            <a href="http://localhost:3000/express-your-love" class="a_link"><button class="add"> ADD LOVE NOTE</button></a>
-            <a  href="http://localhost:3000/">
-            <button class="like">
-                <!--<div class="like_note"></div>-->
-                <span>HOME</span>
-            </button>
-            </a>
-            <form method="POST" action="/logout">
-                <input type="submit" value="Logout" class="admin-logout-btn">
-            </form>
-            </div>
-        <div class="clear2"></div>
-        <!--</div>-->
-            <!--&lt;!&ndash;<div class="admin-login-btn">&ndash;&gt;-->
-               <!--&lt;!&ndash;<form method="POST" action="/logout">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<input type="submit" value="Logout" class="admin-logout-btn">&ndash;&gt;-->
-                <!--&lt;!&ndash;</form>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--</div>-->
-
-        <!--<div class="clear2"></div>-->
-
+            <a href="http://localhost:3000/express-your-love" class="a_link"> <button class="add">ADD LOVE NOTE</button></a>
+            <button class="like"> <div class="like_note"></div><span class="note">LIKE</span></button>
+        </div>
     </div>
     <div class="clear2"></div>
 </div>
-<!--end of header-->
+<!--header-->
 
 
 
 <div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
     <% for(var i in data) { %>
-    <div  class="item-admin18plus=<%= data[i].status18%>">
-        <span><%= data[i].message %></span>
-        <p class="admin-email"><%= data[i].email %></p>
-        <!--<img src="<%=data[i].icon%>">-->
-        <p class="admin-tweet"><%= data[i].twitter %><p>
-    </div>
-</div>
+    <div  class="item-admin 18plus=<%= data[i].status18%>">
+        <div class="admin-note-inner">
+            <span class="admin-message"><%= data[i].message %></span>
+            <p class="admin-btn admin-email" ><%= data[i].email %></p>
+            <!--<img src="<%=data[i].icon%>">-->
+            <p class=" admin-btn admin-tweet"><%= data[i].twitter %><p>
 
-<div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
-    <form action="#" method="POST" class="click">
-        <div class="item-admin-label">
-            <div class="admin-label-note-content">
-                <label for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
-                <label for="<%= data[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= data[i]._id %> +2" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
-                <label for="<%= data[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= data[i]._id %> +3" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
+            <form action="#" method="POST" class="click">
+                <div class="item-admin-label">
+                    <div class="admin-label-note-content">
+                        <label class="admin-label" for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
-            </div>
+                        <label class="admin-label"  for="<%= data[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= data[i]._id %> +2" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
+
+                        <label class="admin-label"  for="<%= data[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= data[i]._id %> +3" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
+
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
+    <% } %>
 
-        <% } %>
-        <input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
-    </form>
+
 </div>
 
 
+<a href="#"><div class="scrollup" id="toTop"><img src="../images/up.png" class="admin-up"></div></a>
+<input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
 <script>
+
 
     function radio() {
         var radio = $(".radio"),
-            dataId;
+                dataId;
         for (var i = 0; i < radio.length; i++) {
             if (radio[i].checked === true) {
                 dataId = $(radio[i]).attr("data_Id");
-        $.ajax({
+                $.ajax({
                     url: "",
                     type: "POST",
                     data: {postId: dataId, status: radio[i].value},
                     success: function (data) {
                         if(data!==""){
-                          dataId.parent().remove();
+                            dataId.parent().remove();
                         }
                         console.log(data);
 
@@ -104,6 +91,24 @@
         window.location.reload();
 
     };
+
+
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if (document.documentElement.clientHeight +
+                    $(document).scrollTop() >= document.body.offsetHeight) {
+                $('.scrollup').fadeIn();
+            } else {
+                $('.scrollup').fadeOut();
+            }
+        });
+        $('.scrollup').click(function () {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 600);
+            return false;
+        });
+    });
 
 </script>
 </body>
