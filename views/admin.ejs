@@ -49,36 +49,33 @@
 
 
 
-
 <div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
-<% for(var i in data) { %>
- <div  class="item-admin18plus=<%= data[i].status18%>">
-  <span><%= data[i].message %></span>
-  <p class="admin-email"><%= data[i].email %></p>
-    <!--<img src="<%=data[i].icon%>">-->
-  <p class="admin-tweet"><%= data[i].twitter %><p>
- </div>
+    <% for(var i in data) { %>
+    <div  class="item-admin18plus=<%= data[i].status18%>">
+        <span><%= data[i].message %></span>
+        <p class="admin-email"><%= data[i].email %></p>
+        <!--<img src="<%=data[i].icon%>">-->
+        <p class="admin-tweet"><%= data[i].twitter %><p>
     </div>
+</div>
 
 <div  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
-<form action="#" method="POST" class="click">
-    <div class="item-admin-label">
-        <div class="admin-label-note-content">
-        <label for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
+    <form action="#" method="POST" class="click">
+        <div class="item-admin-label">
+            <div class="admin-label-note-content">
+                <label for="<%= data[i]._id %> +1">Pending</label> <input type="radio"   value="pending" id="<%= data[i]._id %> +1" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
-        <label for="<%= data[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= data[i]._id %> +2" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+                <label for="<%= data[i]._id %> +2">Approve</label><input type="radio"  value="approve" id="<%= data[i]._id %> +2" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
-        <label for="<%= data[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= data[i]._id %> +3" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio">
+                <label for="<%= data[i]._id %> +3">Decline</label><input type="radio"  value="decline" id="<%= data[i]._id %> +3" name="<%= data[i]._id %>" data_Id="<%= data[i]._id %>" class="radio" checked>
 
+            </div>
         </div>
-    </div>
 
-   <% } %>
-    <input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
+        <% } %>
+        <input type="button" name="submit" id="submit" value="Save" class="admin-save-btn" onclick="radio()"/>
     </form>
-    </div>
-
-
+</div>
 
 
 <script>

@@ -994,16 +994,14 @@ input[type="radio"]{
     vertical-align: sub;
 }
 .view_message{
+    text-overflow: ellipsis;
    width: 743px;
     height: auto;
     min-height: 200px;
     overflow: hidden;
-    margin-top: 15px;
     margin: 20px auto;
-    font-size:68px;
+    font-size:65px;
     color: white;
-
-
 }
 
 
@@ -1031,7 +1029,6 @@ input[type="radio"]{
     text-overflow: ellipsis;
     text-align: center;
     font-family: "Lobster_1.3";
-
 }
 
 .view_next{

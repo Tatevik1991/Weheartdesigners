@@ -26,7 +26,7 @@
     <div class="clear2"></div>
 </div>
 <!--header-->
-
+<!--<a href="http://localhost:3000/I-love-java-because-<plorem>lorem</p>-5448d1e7a974cc881723a073" >NOTE</a>-->
 <!--masonry-->
 <div id="content">
  <ul  id="container"   class="masonry js-masonry"  data-masonry-options='{ "isFitWidth": true }'>
@@ -40,7 +40,7 @@
               JAVA
               BECAUSE
                </span>
-            <span class="note_message"> <%= data[i].message %></span>
+            <span class="note_message"><%= data[i].message %></span>
            <span class="twitter">
             <%= data[i].twitter %>
            </span>
@@ -53,7 +53,7 @@
                         <div class="details-btn">
                    <span class="details">
 
-                    <a href="I-love-java-because-<%= data[i]._id %>" class="view">
+                    <a href="I-love-java-because-<%= data[i].message %>-<%= data[i]._id %>" class="view">
                              VIEW
                         <img class="group-img" src="../images/gruop1.png">
                              NOTE
@@ -122,8 +122,27 @@
 </div>
 
 
-
 <script>
+
+
+
+$( window ).load(function() {
+
+
+
+
+    var view=$(".view");
+
+    for(var i=0; i<view.length; i++){
+        var viewHref = $(view[i]).attr('href');
+        var  textResult=viewHref.split(' ').join('-');
+var URL=encodeURIComponent(textResult);
+
+        $(view[i]).attr('href',URL  );
+    }
+});
+
+
  function showMore() {
        var container = document.getElementById("container"),
          frontPage = $("#page").attr("value");
@@ -134,17 +153,19 @@
             url: "/page/"+frontPage+"?dataType=JSON&time=" + $("#lastDate").attr("value"),
             type: "GET",
             success: function (response) {
+                var textHTML;
                 var data = response.data;
                 $("#lastDate").attr('value', response['lastDate']);
                 $("#page").attr('value', response['page']);
-                console.log(data);
+
                 if (data != "") {
                     for (var i = 0; i < data.length; i++) {
                       var wrapper = document.createElement("div");
                         if(data[i].message.match((/(<([^>]+)>)/ig))){
                             var array=[];
+
                             array = data[i].message.split("");
-                            for(var j=0;j<data.length;j++){
+                             for(var j=0;j<data.length;j++){
                                 if(array[j]=="<"){
                                     array[j] = "&lt;"
                                 }
@@ -155,12 +176,16 @@
                             }
                             data[i].message = array.join("");
                         }
+
+
+                   var  textResult=data[i].message.split(' ').join('-');
+
                         wrapper.innerHTML = '<li class="item ' +response['page']+ '"> ' +
                                 '<div class="note-inner"><span class="love-heading"><span class="i-love">I<img src="../images/gruop1.png" class="group-img"/>JAVA'+' '+'BECAUSE'+
                                 '</span>'+' <span class="note_message">'+data[i].message + '</span>'+' <span class="twitter">' + data[i].twitter+'</span>'
                                 +'</span>'+'</span>'+'</div>'+
                                  '<div class="note-overlay">'+'<div class="outer"><div class="middle"><div class="details-btn">'+
-                                '<span class="details">'+'<a href="view-'+data[i]._id+'"class="view">VIEW'+'<img  class="gruop2" src="../images/gruop1.png"/>NOTE</a></span>'+
+                                '<span class="details">'+'<a href="I-love-java-because-'+ encodeURIComponent(textResult)+"-"+data[i]._id+'"class="view">VIEW'+'<img  class="gruop2" src="../images/gruop1.png"/>NOTE</a></span>'+
                                 '<a class="btn" href="">' +'<button class="fb-btn">facebook'+'</button></a>'+'<a class="btn" href="">'+
                                 '<button class="tw-btn">tweet'+'</button></a>'+ '</div>'+ '</div>'+ '</div>'+ '</div>'+ '</li>';
                         var elem = wrapper.firstChild;
@@ -171,8 +196,12 @@
             }
 
         });
+
+
+
          history.pushState({}, '', 'http://localhost:3000/page/'+frontPage);
-//       console.log($("#lastDate").attr("value"));
+
+
         $('#container').masonry({
             itemSelector: '.item',
             isOriginTop: true,
@@ -217,7 +246,7 @@ $(window).scroll(function() {
                 var data = response.data;
                 $("#lastDate").attr('value', response['lastDate']);
                 $("#page").attr('value', response['page']);
-                console.log(data);
+
                 if (data != "") {
                     for (var i = 0; i < data.length; i++) {
                         var wrapper = document.createElement("div");
@@ -236,12 +265,17 @@ $(window).scroll(function() {
                             data[i].message = array.join("");
                         }
 
+
+
+                        var  textResult=data[i].message.split(' ').join('-');
+
+
                         wrapper.innerHTML = '<li class="item ' +response['page']+ '"> ' +
                                 '<div class="note-inner"><span class="love-heading"><span class="i-love">I<img src="../images/gruop1.png" class="group-img"/>JAVA'+' '+'BECAUSE'+
                                 '</span>'+' <span class="note_message">'+data[i].message + '</span>'+' <span class="twitter">' + data[i].twitter+'</span>'
                                 +'</span>'+'</span>'+'</div>'+
                                 '<div class="note-overlay">'+'<div class="outer"><div class="middle"><div class="details-btn">'+
-                                '<span class="details">'+'<a href="view-'+data[i]._id+'"class="view">VIEW'+'<img  class="gruop2" src="../images/gruop1.png"/>NOTE</a></span>'+
+                                '<span class="details">'+'<a href="I-love-java-because-'+  encodeURIComponent(textResult)+"-"+data[i]._id+'"class="view">VIEW'+'<img  class="gruop2" src="../images/gruop1.png"/>NOTE</a></span>'+
                                 '<a class="btn" href="">' +'<button class="fb-btn">facebook'+'</button></a>'+'<a class="btn" href="">'+
                                 '<button class="tw-btn">tweet'+'</button></a>'+ '</div>'+ '</div>'+ '</div>'+ '</div>'+ '</li>';
                         var elem = wrapper.firstChild;
@@ -278,14 +312,14 @@ $(window).scroll(function() {
                     var _cur_top = $(window).scrollTop();
                     var frontPage = $("#page").attr("value");
                    var scrollpage=$("#scrollpage").attr("value") || 1;
-                  console.log(scrollpage + "up");
+
                     if (_top > _cur_top){
-                      console.log("up");
+
                     for (; scrollpage < frontPage; scrollpage++) {
                         elem = $("." + scrollpage)[0];
-                        console.log(elem +"elem");
+
                         if (isScrolledIntoView(elem)) {
-                            console.log(scrollpage + "jh");
+
                             break;
                         }
                    }
@@ -317,7 +351,7 @@ $(window).scroll(function() {
             var scrollpage = $("#scrollpage").attr("value") || 1;
             if(_top < _cur_top)
             {
-                console.log("down");
+
                 for(; scrollpage<frontPage; scrollpage++) {
                     elem = $("." + scrollpage)[0];
                     if (isScrolledIntoView(elem)) {

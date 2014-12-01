@@ -137,7 +137,10 @@
                    twitter.html(response["data"][0].twitter);
                    icon.attr("src",response["data"][0].icon);
                    $("#time").attr('value',response['prevTime']);
-                  history.pushState({}, '', 'http://localhost:3000/I-love-java-because-' +response["data"][0].message +'-'+response['id']);
+               var  textResult =response["data"][0].message.split(' ').join('-');
+               console.log( textResult+"   textResult")
+
+               history.pushState({}, '', 'http://localhost:3000/I-love-java-because-'+ encodeURIComponent(textResult)+"-"+response['id']);
      }
 
        });
@@ -175,7 +178,8 @@
                    twitter.html(response["data"][0].twitter);
                    icon.attr("src",response["data"][0].icon);
                    $("#time").attr('value',response['nextTime']);
-                  history.pushState({}, '', 'http://localhost:3000/I-love-java-because-'+response["data"][0].message+'-'+response['id']);
+               var  textResult =response["data"][0].message.split(' ').join('-');
+               history.pushState({}, '', 'http://localhost:3000/I-love-java-because-'+encodeURIComponent(textResult)+"-"+response['id']);
             }
 
        });

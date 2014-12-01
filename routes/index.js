@@ -85,11 +85,21 @@ router.post('/login', function (req, res) {
 });
 
 
+
 router.get('/I-love-java-because-:id', function (req, res) {
     var db = req.app.get('db'),
         schema = db.model('schema'),
-        id = req.params.id,
+        idText = req.params.id,
         lastDAte = req.query.lastDate;
+
+    var  textResult = idText.split(' ').join('-'),
+         id=textResult.split("-");
+          id=id[id.length-1];
+
+      console.log( textResult+  "   textResult");
+      console.log(id+ "id");
+
+
 
     if (req.query.dataType == "Prev") {
         var prevTime = req.query.time;
@@ -134,11 +144,15 @@ router.get('/', function (req, res) {
     var schema = req.app.get('db').model('schema'),
         lastDate = req.query.time || "",
         page = 1,
-        scrollpage = "";
+        scrollpage = "",
+        resultText=[];
 
     schema.find({status: "approve"}).sort({date: -1}).limit(10).exec(function (error, data) {
         lastDate = data[9].date.getTime();
-        res.render("index", {data: data, lastDate: lastDate, page: page, scrollpage:scrollpage});
+
+
+
+       res.render("index", {data: data, lastDate: lastDate, page: page, scrollpage:scrollpage});
 
     });
 
@@ -151,6 +165,9 @@ router.get('/page/:page', function (req, res) {
         page = req.params.page,
         lastPage = page,
         scrollpage =  req.params.page;
+
+console.log(page+"    page");
+
 
     if (/^[0-9]*$/.test(page)) {
 
@@ -198,13 +215,15 @@ router.get('/page/:page', function (req, res) {
         return true;
     }
 
-        if (page.match(/(^I-love-java-because-)(\w|\d){1,}/g)) {
+        if (page.match(/(^[I-love-java-because])/gi)) {
             var array1 = page.split("-");
-            res.redirect('/I-love-java-because-' + array1[1]);
-        }
-        else {
-//        console.log("wrong value!!!");
-        }
+            var newarray=array1.slice(4);
+                newarray=newarray.join("-");
+    console.log(newarray+"I-love-java-because");
+
+            res.redirect('/I-love-java-because-' + encodeURIComponent(newarray));
+            return true;
+    }
 
 });
 
@@ -236,6 +255,7 @@ router.post('/admin', function (req, res) {
     }
     if (status === "approve") {
         schema.update({_id: postId}, {status: status}, function (e) {
+            console.log("sucess")
         });
         return true;
     }
@@ -390,16 +410,17 @@ router.post('/express-your-love', function (req, res) {
 
                         }
                     }
-
+                }
                     console.log(message + "  " + result18plus);
 
                     var schema = req.app.get('db').model('schema');
+                    message=message.replace(/\s{2,}/g, ' ');
                     schema({twitter: twitter, icon: icon, email: email, message: message, status: "pending", date: date, status18: result18plus}).save(function (e) {
                         console.log('successfully saved');
                         res.redirect('/express-your-love');
                     });
 
-                }
+
             }
 //        }
 //
